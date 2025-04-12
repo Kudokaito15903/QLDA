@@ -20,4 +20,10 @@ public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, 
     @Modifying
     @Query("Delete from ForgotPassword fp where  fp.user = :user")
     void deleteByUser(@Param("user") User user);
+    Optional<ForgotPassword> findByEmailAndOtpAndUsedFalse(String email, Integer otp);
+
+    @Transactional
+    @Modifying
+    @Query("Delete from ForgotPassword fp where fp.email = :email")
+    void deleteByEmail(@Param("email") String email);
 }

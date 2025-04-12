@@ -1,6 +1,9 @@
 package com.example.server.entity;
 
 import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.example.server.common.Gender;
@@ -13,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 /**
  * Entity class representing a user in the system
  */
@@ -86,6 +88,8 @@ public class User {
      * Account creation timestamp
      */
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 
@@ -93,6 +97,8 @@ public class User {
      * Last modification timestamp
      */
     @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
 

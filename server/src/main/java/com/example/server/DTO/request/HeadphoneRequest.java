@@ -1,15 +1,13 @@
-package com.example.server.dto;
+package com.example.server.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Builder
-public class HeadphoneInfoDTO {
+public class HeadphoneRequest {
     private Integer id;
     private String productID;
     private String headphone_type;

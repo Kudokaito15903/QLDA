@@ -5,8 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.example.server.dto.ProductTypeStatDTO;
 import com.example.server.entity.Product;
-import com.example.server.DTO.ProductTypeStatDTO;
+
 import java.util.List;
 
 @Repository

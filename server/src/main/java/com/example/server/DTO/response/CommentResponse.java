@@ -1,4 +1,4 @@
-package com.example.server.DTO;
+package com.example.server.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class CommentDTO {
+public class CommentResponse {
     private String id;
     private String username;
     private Integer productId;
     private String comment;
     private String date;
     private Integer rating;
-}
+} 

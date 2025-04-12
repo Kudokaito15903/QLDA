@@ -1,26 +1,26 @@
-package com.example.server.DTO;
-
-import java.util.Date;
+package com.example.server.dto.response;
 
 import com.example.server.common.Gender;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserResponse {
     private Integer id;
     private String fullname;
     private String username;
     private String phonenumber;
     private String address;
     private String email;
-    private String password;
-    private Gender gender; 
-    private Date createdAt; 
-}
+    private Gender gender;
+    private Date createdAt;
+    private Date updatedAt;
+    private Boolean isActive;
+} 

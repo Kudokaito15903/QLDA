@@ -1,4 +1,4 @@
-package com.example.server.DTO;
+package com.example.server.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -9,10 +9,11 @@ import com.example.server.entity.User;
 
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer>{
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
 
@@ -31,4 +32,8 @@ public interface UserRepository extends JpaRepository<User,Integer>{
     @Modifying
     @Query("update User u set u.fullname = ?1, u.phonenumber = ?2, u.address = ?3 where u.email = ?4")
     void updateUserProfile(String fullname, String phonenumber, String address, String email);
+
+    List<User> findByUsernameContaining(String username);
+    List<User> findByEmailContaining(String email);
+    List<User> findByUsernameContainingAndEmailContaining(String username, String email);
 }

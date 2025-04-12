@@ -1,17 +1,14 @@
-package com.example.server.dto;
+package com.example.server.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
+@Getter
 @Builder
-public class HeadphoneInfoDTO {
+public class HeadphoneResponse {
     private Integer id;
-    private String productID;
     private String headphone_type;
     private String speaker_size;
     private String speaker_sensitivity;
