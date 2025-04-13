@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 import com.example.server.entity.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,String>{
-    Page<Order> findByUsernameContaining(String username, Pageable pageable);
+public interface OrderRepository extends JpaRepository<Order,Long>{
+    Page<Order> findByFullnameContaining(String fullname, Pageable pageable);
     Page<Order> findByStatusContaining(String status, Pageable pageable);
-    Page<Order> findByOrderIDContaining(String orderID, Pageable pageable);
+    Page<Order> findAllById(Long id, Pageable pageable);
     Page<Order> findByTotalPrice(Integer totalPrice, Pageable pageable);
+    
 }

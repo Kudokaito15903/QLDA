@@ -12,7 +12,7 @@ import com.example.server.entity.User;
 
 import jakarta.transaction.Transactional;
 
-public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, Integer>{
+public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, Long>{
     @Query("select fp from ForgotPassword fp where fp.otp = ?1 and fp.user = ?2")
     Optional<ForgotPassword> findByOtpAndUser(Integer otp, User user);
 
@@ -26,4 +26,5 @@ public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, 
     @Modifying
     @Query("Delete from ForgotPassword fp where fp.email = :email")
     void deleteByEmail(@Param("email") String email);
+    
 }

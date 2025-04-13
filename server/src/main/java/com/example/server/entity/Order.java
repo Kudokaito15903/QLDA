@@ -1,15 +1,24 @@
 package com.example.server.entity;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name ="user_order")
+@Table(name ="orders")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,15 +26,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Order {
     @Id
-    @Column(name = "order_id")
-    private String orderID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name ="status")
     private String status;
     
-    @Column(name ="username")
-    private String username;
-
     @Column(name = "fullname")
     private String fullname;
     
@@ -38,8 +44,9 @@ public class Order {
     @Column(name = "email")
     private String email;
     
-    @Column(name ="order_date")
-    private String order_date;
+    @CreationTimestamp
+    @Column(name = "order_date", nullable = false, updatable = false)
+    private LocalDateTime orderDate;
     
     @Column(name = "total_price")
     private Integer totalPrice;
@@ -52,4 +59,11 @@ public class Order {
 
     @Column(name ="delivery_state")
     private String delivery_state;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 }

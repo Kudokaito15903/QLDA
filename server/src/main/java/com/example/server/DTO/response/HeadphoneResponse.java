@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class HeadphoneResponse {
-    private Integer id;
+    private Long id;
     private String headphone_type;
     private String speaker_size;
     private String speaker_sensitivity;

@@ -1,6 +1,7 @@
 package com.example.server.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,7 +30,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     /**
      * User's full name
@@ -110,5 +111,14 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private ForgotPassword forgotPassword;
+
+    @OneToMany(mappedBy = "user")
+    private List<Wishlist> wishlists;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }
 

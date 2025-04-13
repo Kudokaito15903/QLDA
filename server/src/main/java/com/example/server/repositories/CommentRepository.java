@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, String> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByProductId(Integer productId);
     
     Page<Comment> findAll(Pageable pageable);
     
     List<Comment> findAll();
     
-    boolean existsById(String id);
+    // boolean existsById(String id);
 } 

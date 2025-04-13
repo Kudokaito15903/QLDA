@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import com.example.server.dto.request.CommentRequest;
 import com.example.server.dto.response.CommentResponse;
 import com.example.server.entity.Comment;
+import com.example.server.entity.Product;
+import com.example.server.entity.User;
 import com.example.server.repositories.CommentRepository;
+import com.example.server.repositories.ProductRepository;
+import com.example.server.repositories.UserRepository;
 import com.example.server.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService {
 
    private final CommentRepository commentRepository;
+   private final ProductRepository productRepository;
+   private final UserRepository userRepository;
    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
    
    @Override
@@ -45,12 +51,18 @@ public class CommentServiceImpl implements CommentService {
    public CommentResponse createComment(CommentRequest request) {
        log.info("Creating new comment for product ID: {}", request.getProductId());
        
+       Product product = productRepository.findById(request.getProductId())
+               .orElseThrow(() -> new RuntimeException("Product not found with ID: " + request.getProductId()));
+       
+       User user = userRepository.findById(1L)
+               .orElseThrow(() -> new RuntimeException("User not found"));
+       
        Comment comment = Comment.builder()
                .username(request.getUsername())
-               .productId(request.getProductId())
                .comment(request.getComment())
-               .date(LocalDateTime.now().format(dateFormatter))
                .rating(request.getRating())
+               .product(product)
+               .user(user)
                .build();
        
        Comment savedComment = commentRepository.save(comment);
@@ -63,17 +75,21 @@ public class CommentServiceImpl implements CommentService {
    public CommentResponse updateComment(String id, CommentRequest request) {
        log.info("Updating comment with ID: {}", id);
        
-       Comment existingComment = commentRepository.findById(id)
+       Long commentId = Long.parseLong(id);
+       Comment existingComment = commentRepository.findById(commentId)
                .orElseThrow(() -> {
                    log.error("Comment not found with ID: {}", id);
                    return new RuntimeException("Comment not found with ID: " + id);
                });
        
+       Product product = productRepository.findById(request.getProductId())
+               .orElseThrow(() -> new RuntimeException("Product not found with ID: " + request.getProductId()));
+       
        existingComment.setUsername(request.getUsername());
-       existingComment.setProductId(request.getProductId());
        existingComment.setComment(request.getComment());
        existingComment.setRating(request.getRating());
-       // Date is not updated, keeping the original comment date
+       existingComment.setProduct(product);
+       // createdAt is not updated, keeping the original comment date
        
        Comment updatedComment = commentRepository.save(existingComment);
        log.info("Comment updated successfully with ID: {}", id);
@@ -85,12 +101,13 @@ public class CommentServiceImpl implements CommentService {
    public void delete(String id) {
        log.info("Deleting comment with ID: {}", id);
        
-       if (!commentRepository.existsById(id)) {
+       Long commentId = Long.parseLong(id);
+       if (!commentRepository.existsById(commentId)) {
            log.error("Comment not found with ID: {}", id);
            throw new RuntimeException("Comment not found with ID: " + id);
        }
        
-       commentRepository.deleteById(id);
+       commentRepository.deleteById(commentId);
        log.info("Comment deleted successfully with ID: {}", id);
    }
    
@@ -108,7 +125,8 @@ public class CommentServiceImpl implements CommentService {
    public CommentResponse getCommentById(String id) {
        log.info("Fetching comment with ID: {}", id);
        
-       Comment comment = commentRepository.findById(id)
+       Long commentId = Long.parseLong(id);
+       Comment comment = commentRepository.findById(commentId)
                .orElseThrow(() -> {
                    log.error("Comment not found with ID: {}", id);
                    return new RuntimeException("Comment not found with ID: " + id);
@@ -119,7 +137,8 @@ public class CommentServiceImpl implements CommentService {
    
    @Override
    public boolean existsById(String id) {
-       boolean exists = commentRepository.existsById(id);
+       Long commentId = Long.parseLong(id);
+       boolean exists = commentRepository.existsById(commentId);
        log.info("Checking if comment exists with ID: {} - Result: {}", id, exists);
        return exists;
    }
@@ -128,9 +147,9 @@ public class CommentServiceImpl implements CommentService {
        return CommentResponse.builder()
                .id(comment.getId())
                .username(comment.getUsername())
-               .productId(comment.getProductId())
+               .productId(comment.getProduct().getId().intValue())
                .comment(comment.getComment())
-               .date(comment.getDate())
+               .date(comment.getCreatedAt().format(dateFormatter))
                .rating(comment.getRating())
                .build();
    }

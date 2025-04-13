@@ -9,10 +9,10 @@ import java.util.List;
 public interface UserService {
     List<UserResponse> findAll();
     UserResponse save(UserRequest user);
-    void deleteById(Integer id);
+    void deleteById(Long id);
     List<UserResponse> searchUsers(String username, String email);
-    UserResponse updateUser(Integer id, UserRequest request);
-    UserResponse findById(Integer id);
+    UserResponse updateUser(Long id, UserRequest request);
+    UserResponse findById(Long id);
     boolean existsByEmail(String email);
     boolean updatePassword(String email, String newPassword);
     User findByEmail(String email);

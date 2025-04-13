@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +23,11 @@ public class ProductInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
-    private Integer id;
+    private Long id;
     
-    @Column(name = "productID")
-    private String productID;
+    @OneToOne
+    @JoinColumn(name = "product_id",nullable = false)
+    private Product product;
 
     @Column(name ="CPU")
     private String CPU;

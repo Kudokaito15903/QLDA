@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,24 +22,24 @@ public class OrderDetail {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id")
-   private Integer id;
-   
-   @Column(name ="product_id")
-   private String product_id;
-   
+   private Long id;
+     
    @Column(name ="product_name")
    private String productName;
 
    @Column(name ="color")
    private String color;
 
-   @Column(name = "order_id")
-   private String orderID;
+   @Column(name ="quantity")
+   private Integer quantity;
 
    @Column(name ="price")
-   private Integer price;
+   private Integer price;  
+   @ManyToOne
+   @JoinColumn(name = "product_id",nullable = false)
+   private Product product;
 
-   @Column(name ="quantity")
-   private Integer quantity;  
-
+   @ManyToOne
+   @JoinColumn(name = "order_id",nullable = false)
+   private Order order;
 }

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(Integer id, UserRequest request) {
+    public UserResponse updateUser(Long id, UserRequest request) {
         try {
             User existingUser = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public UserResponse findById(Integer id) {
+    public UserResponse findById(Long id) {
         try {
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found with id: " + id));

@@ -7,6 +7,6 @@ import com.example.server.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface WishlistRepository extends JpaRepository<Wishlist,String>{
+public interface WishlistRepository extends JpaRepository<Wishlist,Long>{
     
 }

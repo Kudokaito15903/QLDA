@@ -20,7 +20,7 @@ public class CommentRequest {
     private String username;
     
     @NotNull(message = "Product ID is required")
-    private Integer productId;
+    private Long productId;
     
     @NotBlank(message = "Comment content is required")
     private String comment;

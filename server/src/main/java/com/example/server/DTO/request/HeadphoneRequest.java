@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class HeadphoneRequest {
-    private Integer id;
+    private Long id;
     private String productID;
     private String headphone_type;
     private String speaker_size;

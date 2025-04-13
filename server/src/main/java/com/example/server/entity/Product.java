@@ -1,6 +1,9 @@
 package com.example.server.entity;
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
@@ -8,7 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +30,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "productID")
     private String productID;
@@ -40,12 +47,6 @@ public class Product {
     @Column(name ="image")
     private String image;
 
-    @Column(name ="image1")
-    private String image1;
-
-    @Column(name ="image2")
-    private String image2;
-
     @Column(name = "description")
     private String description;
 
@@ -59,6 +60,31 @@ public class Product {
     private String brand;
 
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name ="created_date")
     private Date createdDate;
+    
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updatedAt;
+  
+    @OneToOne(mappedBy = "product")
+    private ProductInfo productInfo;
+    
+    @OneToOne(mappedBy = "product")
+    private HeadphoneInfo headphoneInfo;
+
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetail> orderDetails;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductAvailable> productAvailable;
+
+
+    
 }
