@@ -10,11 +10,10 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByProductId(Integer productId);
-    
+    List<Comment> findByProductId(Long productId);
     Page<Comment> findAll(Pageable pageable);
-    
-    List<Comment> findAll();
-    
-    // boolean existsById(String id);
+    Page<Comment> findByProductId(Long productId, Pageable pageable);
+    Page<Comment> findByUserId(Long userId, Pageable pageable);
+    Page<Comment> findByRating(Integer rating, Pageable pageable);
+    boolean existsById(Long id);
 } 

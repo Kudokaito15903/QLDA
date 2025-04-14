@@ -28,25 +28,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name ="status")
-    private String status;
-    
-    @Column(name = "fullname")
-    private String fullname;
-    
-    @Column(name = "phonenumber")
-    private String phonenumber;
-    
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "email")
-    private String email;
-    
-    @CreationTimestamp
-    @Column(name = "order_date", nullable = false, updatable = false)
-    private LocalDateTime orderDate;
     
     @Column(name = "total_price")
     private Integer totalPrice;
@@ -60,6 +41,13 @@ public class Order {
     @Column(name ="delivery_state")
     private String delivery_state;
 
+    @Column(name ="status")
+    private String status;
+
+    @CreationTimestamp
+    @Column(name = "order_date", nullable = false, updatable = false)
+    private LocalDateTime orderDate;
+    
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

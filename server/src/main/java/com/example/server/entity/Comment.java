@@ -30,9 +30,6 @@ public class Comment {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "username")
-    private String username;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

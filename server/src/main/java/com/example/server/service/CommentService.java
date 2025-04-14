@@ -5,33 +5,35 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.server.dto.request.CommentRequest;
+import com.example.server.dto.request.CommentUpdateRequest;
 import com.example.server.dto.response.CommentResponse;
 import com.example.server.entity.Comment;
 
 @Service
 public interface CommentService {
     
-    // Phương thức phân trang comments
-    Page<Comment> getPageComments(Pageable pageable);
-    
     // Lấy tất cả comments
     List<CommentResponse> getAllComments();
     
+    // Phương thức phân trang comments
+    Page<CommentResponse> getPageComments(Pageable pageable);
+        
     // Tạo comment mới
     CommentResponse createComment(CommentRequest request);
     
     // Cập nhật comment theo id
-    CommentResponse updateComment(String id, CommentRequest request);
+    CommentResponse updateComment(Long id, CommentUpdateRequest request);
     
     // Xóa comment theo id
-    void delete(String id);
+    void delete(Long id);
     
     // Lấy comments theo productId
-    List<CommentResponse> getCommentsByProductId(Integer productId);
+    List<CommentResponse> getCommentsByProductId(Long productId);
     
     // Lấy comment theo id
-    CommentResponse getCommentById(String id);
+    CommentResponse getCommentById(Long id);    
+    // Phân trang comments theo userId
+    Page<CommentResponse> getCommentsByUser(Long userId, Pageable pageable);
+
     
-    // Kiểm tra comment có tồn tại không
-    boolean existsById(String id);
 }
