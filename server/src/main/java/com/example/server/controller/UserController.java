@@ -40,7 +40,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest request) {
         try {
             UserResponse savedUser = userService.save(request);
@@ -65,7 +65,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         try {
             userService.findById(id);
@@ -92,4 +92,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(@RequestBody UserRequest request) {
+        UserResponse response = userService.login(request.getUsername(), request.getPassword());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.noContent().build();
+    }
+
 } 

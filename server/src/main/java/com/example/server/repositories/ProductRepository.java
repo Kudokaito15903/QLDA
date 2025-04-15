@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT new com.example.server.dto.request.ProductTypeStat(p.productType, SUM(p.sold)) " +
-           "FROM Product p GROUP BY p.productType")
+    "FROM Product p GROUP BY p.productType")
     List<ProductTypeStat> findProductTypeStats();
     @Query("SELECT p FROM Product p WHERE " +
            "(:name IS NULL OR p.name LIKE CONCAT('%', :name, '%')) AND " +
@@ -33,6 +33,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByNameContaining(String name, Pageable pageable);
     Page<Product> findByProductTypeContaining(String brand, Pageable pageable);
     Page<Product> findBySellingPrice(Long sellingPrice, Pageable pageable);
-    Page<Product> findByProductIDContaining(String productID, Pageable pageable);
+    Page<Product> findById(Long id, Pageable pageable);
 }
 

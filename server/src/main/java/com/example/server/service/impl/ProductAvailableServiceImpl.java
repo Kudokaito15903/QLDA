@@ -35,7 +35,7 @@ public class ProductAvailableServiceImpl implements ProductAvailableService {
         return convertToResponse(productAvailable);
     }
     @Override
-    public void createProductAvailable(ProductAvailableRequest request) {
+    public ProductAvailableResponse createProductAvailable(ProductAvailableRequest request) {
         Product product = productRepository.findById(request.getProductId())
             .orElseThrow(() -> new RuntimeException("Product not found"));
         ProductAvailable productAvailable = ProductAvailable.builder()
@@ -44,6 +44,7 @@ public class ProductAvailableServiceImpl implements ProductAvailableService {
             .available(request.getAvailable())
             .build();
         productAvailableRepository.save(productAvailable);
+        return convertToResponse(productAvailable);
     }
     @Override
     public void UpdateProductQuantity(ProductAvailableRequest request) {
@@ -60,12 +61,13 @@ public class ProductAvailableServiceImpl implements ProductAvailableService {
             });
     }
     @Override
-    public void updateProductAvailable(ProductAvailableRequest request) {
+    public ProductAvailableResponse updateProductAvailable(ProductAvailableRequest request) {
         ProductAvailable productAvailable = productAvailableRepository.findById(request.getId())
             .orElseThrow(() -> new RuntimeException("Product available not found"));
         productAvailable.setAvailable(request.getAvailable());
         productAvailable.setColor(request.getColor());
         productAvailableRepository.save(productAvailable);
+        return convertToResponse(productAvailable);
     }
 
     @Override

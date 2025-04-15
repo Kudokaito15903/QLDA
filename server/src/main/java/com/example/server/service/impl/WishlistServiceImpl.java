@@ -26,7 +26,7 @@ public class WishlistServiceImpl implements WishlistService {
     private final UserRepository userRepository;
 
     @Override
-    public WishlistResponse addToWishlist(WishlistRequest request){
+    public WishlistResponse createWishlist(WishlistRequest request){
         try{
             User user = userRepository.findById(request.getUserId())
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -45,7 +45,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     @Override
-    public void removeFromWishlist(Long id){
+    public void deleteWishlist(Long id){
        try{
         wishlistRepository.deleteById(id);
         log.info("Removed from wishlist successfully");

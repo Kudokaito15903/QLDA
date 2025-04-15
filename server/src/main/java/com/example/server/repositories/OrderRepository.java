@@ -10,11 +10,12 @@ import com.example.server.entity.Order;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long>{
-    Page<Order> findByFullnameContaining(String fullname, Pageable pageable);
+    @Query("SELECT o FROM Order o WHERE o.user.fullname LIKE %:fullname%")
+    Page<Order> findByFullnameContaining(@Param("fullname") String fullname, Pageable pageable);
     Page<Order> findByStatusContaining(String status, Pageable pageable);
     Page<Order> findByTotalPrice(Integer totalPrice, Pageable pageable);
-    Page<Order> findByOrderID(Long orderID, Pageable pageable);
-
+    Page<Order> findById(Long id, Pageable pageable);
+    
     @Query("SELECT o FROM Order o WHERE " +
            "(:username IS NULL OR o.user.username LIKE CONCAT('%', :username, '%')) AND " +
            "(:status IS NULL OR o.status LIKE CONCAT('%', :status, '%')) AND " +

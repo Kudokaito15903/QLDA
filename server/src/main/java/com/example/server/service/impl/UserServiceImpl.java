@@ -149,7 +149,18 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-    
+    @Override
+    public UserResponse login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+        if(user.getPassword().equals(password)){
+            return toResponse(user);
+        }
+        else{
+            throw new RuntimeException("Invalid password");
+        }
+    }
+ 
     // @Override
     // public String generatePasswordResetToken(String email) {
     //     log.info("Generating password reset token for email: {}", email);

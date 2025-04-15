@@ -10,6 +10,6 @@ public interface ProductAvailableService {
     ProductAvailableResponse findById(Long id);
     void UpdateProductQuantity (ProductAvailableRequest request);
     void deleteProductAvailable(Long id);
-    void createProductAvailable(ProductAvailableRequest request);
-    void updateProductAvailable(ProductAvailableRequest request);
+    ProductAvailableResponse createProductAvailable(ProductAvailableRequest request);
+    ProductAvailableResponse updateProductAvailable(ProductAvailableRequest request);
 }

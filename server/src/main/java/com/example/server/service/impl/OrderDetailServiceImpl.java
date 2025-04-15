@@ -37,7 +37,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return orderDetailRepository.findByProductId(productId).stream().map(this::toResponse).collect(Collectors.toList());
     }
     @Override
-    public void createOrderDetail(OrderDetailRequest request){
+    public OrderDetailResponse createOrderDetail(OrderDetailRequest request){
         Order order = orderRepository.findById(request.getOrderId())
         .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
@@ -52,9 +52,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             .price(request.getPrice())
             .build();
         orderDetailRepository.save(orderDetail);
+        return toResponse(orderDetail);
     }
     @Override
-    public void updateOrderDetail(Long id, OrderDetailRequest request){
+    public OrderDetailResponse updateOrderDetail(Long id, OrderDetailRequest request){
         OrderDetail orderDetail = orderDetailRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("OrderDetail not found"));
         Order order = orderRepository.findById(request.getOrderId())
@@ -68,6 +69,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         orderDetail.setQuantity(request.getQuantity());
         orderDetail.setPrice(request.getPrice());
         orderDetailRepository.save(orderDetail);
+        return toResponse(orderDetail);
     }
     @Override
     public void deleteOrderDetail(Long id){

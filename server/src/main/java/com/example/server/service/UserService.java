@@ -16,6 +16,8 @@ public interface UserService {
     boolean existsByEmail(String email);
     boolean updatePassword(String email, String newPassword);
     User findByEmail(String email);
+    UserResponse login(String username, String password);
+   
     // // Password reset methods
     // boolean existsByEmail(String email);
     // String generatePasswordResetToken(String email);

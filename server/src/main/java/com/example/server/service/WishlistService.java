@@ -6,9 +6,9 @@ import com.example.server.dto.request.WishlistRequest;
 import com.example.server.dto.response.WishlistResponse;
 
 public interface WishlistService {
-    WishlistResponse addToWishlist(WishlistRequest request);
-    void removeFromWishlist(Long id);
-    List<WishlistResponse>findAll();
+    WishlistResponse createWishlist(WishlistRequest request);
+    void deleteWishlist(Long id);
+    List<WishlistResponse> findAll();
     WishlistResponse findById(Long id);
 
 }

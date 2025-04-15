@@ -110,13 +110,6 @@ public class OrderController {
     ){
         return ResponseEntity.ok(orderService.findByOrderIDPageable(orderid, pageable));
     }
-    @GetMapping("admin/total_order")
-    public ResponseEntity<Map<String, Object>> getTotalOrder(){
-        return ResponseEntity.ok(orderService.getTotalOrder());
-    }
-    @GetMapping("admin/total_profit")
-    public ResponseEntity<Map<String, Object>> getTotalProfit(){
-        return ResponseEntity.ok(orderService.getTotalProfit());
-    }
+
 
 }

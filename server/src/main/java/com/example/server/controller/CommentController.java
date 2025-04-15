@@ -84,6 +84,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> createComment(@Valid @RequestBody CommentRequest request) {
         try {
             CommentResponse createdComment = commentService.createComment(request);
+            log.info("Comment created successfully");
             return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error creating comment: {}", e.getMessage());
@@ -104,7 +105,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/delete_review/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         try {
             commentService.delete(id);
