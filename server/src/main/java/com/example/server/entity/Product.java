@@ -30,16 +30,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
-    private Long id;
+    private Long id; //id of product
     
     @Column(name = "name")
     private String name;
 
     @Column(name = "selling_price")
-    private Long sellingPrice;
+    private Integer sellingPrice;
 
     @Column(name = "original_price")
-    private Long originalPrice;
+    private Integer originalPrice;
 
     @Column(name ="image")
     private String image;
@@ -48,7 +48,7 @@ public class Product {
     private String description;
 
     @Column(name = "sold")
-    private Integer sold;
+    private Integer sold; //so luong ban duoc
 
     @Column(name ="product_type")
     private String productType;

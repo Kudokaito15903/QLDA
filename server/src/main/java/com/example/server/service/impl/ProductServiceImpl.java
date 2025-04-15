@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.data.domain.Sort;
 import com.example.server.service.ProductService;
 import com.example.server.dto.request.ProductRequest;

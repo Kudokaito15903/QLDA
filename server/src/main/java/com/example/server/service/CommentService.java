@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.server.dto.request.CommentRequest;
 import com.example.server.dto.request.CommentUpdateRequest;
 import com.example.server.dto.response.CommentResponse;
-import com.example.server.entity.Comment;
-
 @Service
 public interface CommentService {
     

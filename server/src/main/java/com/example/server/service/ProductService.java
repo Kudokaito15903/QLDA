@@ -18,7 +18,7 @@ public interface ProductService {
     ProductResponse createProduct(ProductRequest request);
     ProductResponse updateProduct(Long id, ProductUpdateRequest request);
     void deleteProduct(Long id);
-    Page<ProductResponse> getTopSellingProducts(int limit, Pageable pageable);
+;    Page<ProductResponse> getTopSellingProducts(int limit, Pageable pageable);
     ProductResponse updateProductStock(Long id, int quantityChange);
     List<ProductResponse> sortByName();
 }

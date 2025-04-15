@@ -15,10 +15,10 @@ public class ProductUpdateRequest {
     private String name;
     
     @NotNull @Min(0)
-    private Long sellingPrice;
+    private Integer sellingPrice;
     
     @NotNull @Min(0)
-    private Long originalPrice;
+    private Integer originalPrice;
     
     private String image;
     private String description;
