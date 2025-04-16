@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<OrderResponse> findByOrderIDPageable(Long orderID, Pageable pageable) {
         try {
-            return orderRepository.findByOrderID(orderID, pageable)
+            return orderRepository.findById(orderID, pageable)
                     .map(this::mapToOrderResponse);
         } catch (NumberFormatException e) {
             return Page.empty(pageable);
