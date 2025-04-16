@@ -1,0 +1,201 @@
+/*Block between container */
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Tạo khoảng cách giữa các component */
+}
+
+@media only screen and (max-width: 768px) {
+  .component-container {
+    gap: 10px; /* Điều chỉnh khoảng cách trên màn hình nhỏ hơn */
+  }
+}
+/* Footer */
+.footer-area {
+  padding: 40px 0px;
+  background-color: #0C0C0C;
+  color: #fff;
+}
+.footer-area a {
+  text-decoration: none;
+}
+.footer-area .footer-heading {
+  font-size: 24px;
+  color: #fff;
+}
+.footer-area .footer-underline {
+  height: 1px;
+  width: 150px;
+  background-color: #ddd;
+  margin: 10px 0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Verdana, sans-serif;
+  margin: 0; /* Remove default body margin */
+}
+
+/* Slideshow container */
+.slideshow-container {
+  width: 80vw; /* Occupies 80% of viewport width */
+  height: 40vh; /* Occupies 40% of viewport height */
+  position: relative;
+  margin: auto;
+  overflow: hidden; /* Hide excess image outside container */
+}
+
+/* Adjust image to fit container */
+.slideshow-container img {
+  width: 100%; /* Ensure image always occupies full width */
+  height: 100%; /* Ensure image always occupies full height */
+  object-fit: cover; /* Maintain aspect ratio, cut overflow */
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 2s;
+  animation-direction: alternate;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media only screen and (max-width: 768px) {
+  .slideshow-container {
+    width: 95vw; /* Increase width for smaller screens */
+    height: 20vh; /* Adjust height for smaller screens */
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .slideshow-container {
+    width: 100vw; /* Full width on mobile screens */
+    height: 20vh; /* Adjust height for mobile */
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  .slideshow-container {
+    width: 100vw;
+    height: 25vh;
+  }
+}
+
+/* navbar */
+/* Main Navbar Styling */
+.main-navbar {
+  border-bottom: 1px solid #ccc;
+  background-color: #0C0C0C;
+
+}
+
+.main-navbar .top-navbar {
+  background-color: #0C0C0C;
+  padding: 10px 0;
+}
+
+.main-navbar .top-navbar .brand-name {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.main-navbar .top-navbar .nav-link {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 10px;
+}
+
+.main-navbar .top-navbar .dropdown-menu {
+  padding: 0;
+  border-radius: 0;
+}
+
+.main-navbar .top-navbar .dropdown-menu .dropdown-item {
+  padding: 8px 16px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.main-navbar .top-navbar .dropdown-menu .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.main-navbar .top-navbar .dropdown-menu .dropdown-item i {
+  width: 20px;
+  text-align: center;
+  /* color: #2874f0; */
+  color: #0d031b;
+  font-size: 14px;
+}
+
+/* Navbar Styles */
+.main-navbar .navbar {
+  background-color: #ddd;
+  padding: 10px 0;
+}
+
+.main-navbar .navbar .nav-item .nav-link {
+  padding: 8px 20px;
+  color: #000;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.main-navbar .navbar .nav-item .nav-link:hover {
+  color: #0d031b;
+}
+
+/* Brand name for smaller screens */
+.main-navbar .navbar-brand {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Navbar Toggler Icon */
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+}
+
+.navbar-toggler-icon {
+  background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828859.png");
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+}
+
+/* Media Queries for Small Devices */
+@media only screen and (max-width: 600px) {
+  .main-navbar .top-navbar .nav-link {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .main-navbar .navbar-brand {
+    font-size: 1.4rem;
+  }
+}
+
