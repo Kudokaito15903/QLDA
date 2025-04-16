@@ -25,10 +25,12 @@ function App() {
   return (
     <>
       <LogInProvider>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<PublicRoute><Login></Login></PublicRoute>}></Route>
-        <Route path="/signup" element={<PublicRoute><SignUp></SignUp></PublicRoute>}></Route>
-        <Route path="/profile" element={<PrivateRoute><Profile></Profile></PrivateRoute>}></Route>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<PublicRoute><Login></Login></PublicRoute>}></Route>
+          <Route path="/signup" element={<PublicRoute><SignUp></SignUp></PublicRoute>}></Route>
+          <Route path="/profile" element={<PrivateRoute><Profile></Profile></PrivateRoute>}></Route>
+        </Routes>
       </LogInProvider>
     </>
   );
