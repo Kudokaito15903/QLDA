@@ -1,0 +1,15 @@
+node_modules/
+
+# build output
+dist/
+build/
+
+# cache
+.cache/
+.vite/
+*.log
+
+# OS và editor files
+.DS_Store
+.env
+*.swp
