@@ -15,12 +15,13 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
     Page<Order> findByStatusContaining(String status, Pageable pageable);
     Page<Order> findByTotalPrice(Integer totalPrice, Pageable pageable);
     Page<Order> findById(Long id, Pageable pageable);
-    
+    @Query("SELECT o FROM Order o WHERE o.user.username LIKE %:username%")
+    Page<Order> findByUsernameContaining(@Param("username") String username, Pageable pageable);
     @Query("SELECT o FROM Order o WHERE " +
            "(:username IS NULL OR o.user.username LIKE CONCAT('%', :username, '%')) OR " +
            "(:status IS NULL OR o.status LIKE CONCAT('%', :status, '%')) OR " +
            "(:orderId IS NULL OR o.id = :orderId) OR " +
-           "(:totalPrice IS NULL OR o.totalPrice = :totalPrice)")
+           "(:totalPrice IS NULL OR o.totalPrice = :totalPrice)" )
     Page<Order> searchOrders(
         @Param("username") String username,
         @Param("status") String status,

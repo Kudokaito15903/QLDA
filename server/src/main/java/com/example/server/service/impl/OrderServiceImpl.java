@@ -17,18 +17,20 @@ import com.example.server.service.OrderService;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     
     @Override
-    public List<OrderResponse> getAllOrders() {
-        return orderRepository.findAll().stream()
-                .map(this::mapToOrderResponse)
-                .collect(Collectors.toList());
+    public Page<OrderResponse> getAllOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable)
+                .map(this::mapToOrderResponse);
     }
 
     @Override
@@ -74,8 +76,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse createOrder(OrderRequest request) {
+        log.info("Creating order with request: {}", request);
+        
+        if (request.getUserId() == null) {
+            log.error("User ID is null in request");
+            throw new IllegalArgumentException("User ID must not be null");
+        }
+
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + request.getUserId()));
+                .orElseThrow(() -> {
+                    log.error("User not found with id: {}", request.getUserId());
+                    return new EntityNotFoundException("User not found with id: " + request.getUserId());
+                });
             
         Order order = Order.builder()
             .user(user)
@@ -86,7 +98,10 @@ public class OrderServiceImpl implements OrderService {
             .status("Processing")
             .build();
         
+        log.info("Saving order: {}", order);
         Order savedOrder = orderRepository.save(order);
+        log.info("Order saved successfully with id: {}", savedOrder.getId());
+        
         return mapToOrderResponse(savedOrder);
     }
 
@@ -129,24 +144,6 @@ public class OrderServiceImpl implements OrderService {
                 .map(this::mapToOrderResponse);
     }
     
-    private OrderResponse mapToOrderResponse(Order order) {
-        return OrderResponse.builder()
-                .id(order.getId())
-                .username(order.getUser().getUsername())
-                .status(order.getStatus())
-                .fullname(order.getUser().getFullname())
-                .phonenumber(order.getUser().getPhonenumber())
-                .address(order.getUser().getAddress())
-                .email(order.getUser().getEmail())
-                .orderDate(order.getOrderDate())
-                .totalPrice(order.getTotalPrice())
-                .paymentMethod(order.getPayment_method())
-                .paid(order.getPaid())
-                .deliveryState(order.getDelivery_state())
-                .userId(order.getUser().getId())
-                .build();
-    }
-    
     @Override
     public Map<String, Object> getTotalOrder(){
         List<Order> orders = orderRepository.findAll();
@@ -186,7 +183,28 @@ public class OrderServiceImpl implements OrderService {
         result.put("profit_by_days", profitByDays);
         return result;
     }
+    @Override
+    public Page<OrderResponse> findByUsernameContaining(String username, Pageable pageable){
+        return orderRepository.findByUsernameContaining(username, pageable)
+                .map(this::mapToOrderResponse);
+    }    
 
-    
+    private OrderResponse mapToOrderResponse(Order order) {
+        return OrderResponse.builder()
+                .id(order.getId())
+                .username(order.getUser().getUsername())
+                .status(order.getStatus())
+                .fullname(order.getUser().getFullname())
+                .phonenumber(order.getUser().getPhonenumber())
+                .address(order.getUser().getAddress())
+                .email(order.getUser().getEmail())
+                .orderDate(order.getOrderDate())
+                .totalPrice(order.getTotalPrice())
+                .paymentMethod(order.getPayment_method())
+                .paid(order.getPaid())
+                .deliveryState(order.getDelivery_state())
+                .userId(order.getUser().getId())
+                .build();
+    }
 
 }
