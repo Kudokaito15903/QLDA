@@ -3,23 +3,21 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.example.server.dto.request.MailBodyRequest;  
-
+import lombok.RequiredArgsConstructor;
 @Service
+@RequiredArgsConstructor
+
 public class EmailService {
     private final JavaMailSender mailSender;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void sendEmail(MailBodyRequest mailBody) {
+    public void sendSimpleEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(mailBody.getTo());
-        message.setFrom("Ha2k03@gmail.com");
-        message.setSubject(mailBody.getSubject());
-        message.setText(mailBody.getText());
-        
+        message.setFrom("hauhau10932@gmail.com");
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(body);
+
         mailSender.send(message);
+        System.out.println("Email sent successfully!");
     }
 }

@@ -2,7 +2,6 @@ package com.example.server.controller;
 import com.example.server.dto.request.CommentRequest;
 import com.example.server.dto.request.CommentUpdateRequest;
 import com.example.server.dto.response.CommentResponse;
-import com.example.server.entity.Comment;
 import com.example.server.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

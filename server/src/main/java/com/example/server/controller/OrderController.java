@@ -1,7 +1,6 @@
 package com.example.server.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,18 +64,18 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
-    // @GetMapping("/search")
-    // public ResponseEntity<Page<OrderResponse>> searchOrders(
-    //     @RequestParam(required = false) String username,
-    //     @RequestParam(required = false) String status,
-    //     @RequestParam(required = false) Long orderId,
-    //     @RequestParam(required = false) Integer totalPrice, 
-    //     @RequestParam(required = false) Integer page,
-    //     @RequestParam(required = false) Integer size
-    // ){
-    //     Pageable pageable = PageRequest.of(page - 1, size);
-    //     return ResponseEntity.ok(orderService.searchOrders(username, status, orderId, totalPrice, pageable));
-    // }
+    @GetMapping("/search")
+    public ResponseEntity<Page<OrderResponse>> searchOrders(
+        @RequestParam(required = false, defaultValue = "") String username,
+        @RequestParam(required = false, defaultValue = "") String status,
+        @RequestParam(required = false, defaultValue = "0") Long orderId,
+        @RequestParam(required = false, defaultValue = "0") Integer totalPrice, 
+        @RequestParam(required = false, defaultValue = "0") Integer page,
+        @RequestParam(required = false, defaultValue = "10") Integer size
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return ResponseEntity.ok(orderService.searchOrders(username, status, orderId, totalPrice, pageable));
+    }
     @GetMapping("pagination/totalprice/{totalprice}")
     public ResponseEntity<Page<OrderResponse>> getOrdersByTotalPrice(
         @PathVariable Integer totalprice,

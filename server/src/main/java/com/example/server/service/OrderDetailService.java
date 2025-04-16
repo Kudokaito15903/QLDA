@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.server.dto.request.OrderDetailRequest;
 import com.example.server.dto.response.OrderDetailResponse;
-@Service
-
 public interface OrderDetailService {
     List<OrderDetailResponse> getAllOrderDetails();
     List<OrderDetailResponse> findByOrderID(Long orderId);
