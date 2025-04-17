@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.example.server.entity.Order;
+import com.example.server.entity.User;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long>{
@@ -29,4 +32,8 @@ public interface OrderRepository extends JpaRepository<Order,Long>{
         @Param("totalPrice") Integer totalPrice,
         Pageable pageable
     );
+    // @Modifying
+    // @Transactional
+    // @Query("DELETE FROM Order o WHERE o.user = :user")
+    // void deleteByUser(User user);
 }
