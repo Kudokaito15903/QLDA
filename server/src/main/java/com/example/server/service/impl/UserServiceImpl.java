@@ -16,12 +16,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.server.repositories.OrderRepository;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final OrderRepository orderRepository;
 
     // @Autowired
     // private PasswordResetTokenRepository passwordResetTokenRepository;
@@ -54,7 +60,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         try {
-            userRepository.deleteById(id);
+            User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+            user.setIsActive(false);
+            userRepository.save(user);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error deleting user: " + e.getMessage());
