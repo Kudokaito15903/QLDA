@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "interactive"
+=======
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+>>>>>>> user
 }
