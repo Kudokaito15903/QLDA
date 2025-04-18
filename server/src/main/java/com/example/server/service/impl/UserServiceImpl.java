@@ -6,10 +6,7 @@ import com.example.server.entity.User;
 import com.example.server.repositories.UserRepository;
 // import com.example.server.repositories.PasswordResetTokenRepository;
 import com.example.server.service.UserService;
-
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,9 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final OrderRepository orderRepository;
-
-    // @Autowired
-    // private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Override
     public List<UserResponse> findAll() {
