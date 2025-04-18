@@ -6,6 +6,8 @@ import User from './pages/User.jsx'
 import LoginContext from './context/LoginContext.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Navbar from './components/Navbar.jsx'; 
+import Product from './pages/Product.jsx';
+import AddProduct from './components/Product/AddProduct.jsx';
 export default function App() {
   const { LoginData, url } = useContext(LoginContext);
   return (
@@ -18,6 +20,8 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<Dashboard />} />
               <Route path="/user" element={<User />} />
+              <Route path="/product" element={<Product />} />
+              <Route path="/product/add-product" element={<AddProduct />} />
             </Routes>
           </main>
         </div>
