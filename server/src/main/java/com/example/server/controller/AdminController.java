@@ -56,21 +56,21 @@ public class AdminController {
     }
 
     @Operation(summary = "Update product", description = "Update product information by ID")
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateProduct/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
         ProductResponse product = productService.updateProduct(id, request);
         return ResponseEntity.ok(product);
     }
 
     @Operation(summary = "Delete product", description = "Delete product by ID")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Create product", description = "Create a new product")
-    @PostMapping("/create")
+    @PostMapping("/createProduct")
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest request) {
         ProductResponse product = productService.createProduct(request);
         return ResponseEntity.ok(product);

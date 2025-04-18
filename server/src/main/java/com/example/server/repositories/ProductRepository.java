@@ -19,10 +19,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     "FROM Product p GROUP BY p.productType")
     List<ProductTypeStat> findProductTypeStats();
     @Query("SELECT p FROM Product p WHERE " +
-           "(:name IS NULL OR p.name LIKE CONCAT('%', :name, '%')) AND " +
-           "(:productType IS NULL OR p.productType LIKE CONCAT('%', :productType, '%')) AND " +
-           "(:brand IS NULL OR p.brand LIKE CONCAT('%', :brand, '%')) AND " +
-           "(:sellingPrice IS NULL OR p.sellingPrice = :sellingPrice)")
+    "(:name IS NULL OR UPPER(p.name) LIKE CONCAT('%', UPPER(:name), '%')) AND " +
+    "(:productType IS NULL OR UPPER(p.productType) LIKE CONCAT('%', UPPER(:productType), '%')) AND " +
+    "(:brand IS NULL OR UPPER(p.brand) LIKE CONCAT('%', UPPER(:brand), '%')) AND " +
+    "(:sellingPrice IS NULL OR p.sellingPrice = :sellingPrice)")
     Page<Product> searchProducts(
         @Param("name") String name,
         @Param("productType") String productType,
