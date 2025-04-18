@@ -38,7 +38,7 @@ public class CommentController {
     public ResponseEntity<Page<CommentResponse>> getPageComments(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
-        @RequestParam(defaultValue = "date") String sortBy,
+        @RequestParam(defaultValue = "createdAt") String sortBy,
         @RequestParam(defaultValue = "desc") String direction) {
         try {
             Sort.Direction sortDirection = "asc".equalsIgnoreCase(direction) 
@@ -104,7 +104,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/admin/delete_review/{id}")
+    @DeleteMapping("/delete_review/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         try {
             commentService.delete(id);
