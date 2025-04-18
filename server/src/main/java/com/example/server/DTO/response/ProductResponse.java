@@ -23,6 +23,6 @@ public class ProductResponse {
     private String productType;
     private String brand;
     private Date createdDate;
-    private Object productSpecs; // Could be ProductInfo or HeadphoneInfo
+  
 
 }

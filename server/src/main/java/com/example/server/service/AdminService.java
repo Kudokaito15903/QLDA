@@ -21,7 +21,16 @@ public class AdminService {
         if (admin.isEmpty()) {
             log.warn("Login failed: Admin with username {} not found", username);
         }
-        log.info("Admin login successful: {}", username);
-        return admin.get();
+        if(admin.get().getPassword().equals(password)){
+            log.info("Admin login successful: {}", username);
+            return Admin.builder()
+            .username(admin.get().getUsername())
+            .password(admin.get().getPassword())
+            .build();
+        }
+        else{
+            log.warn("Login failed: Invalid password for admin: {}", username);
+            throw new RuntimeException("Invalid password");
+        }
     }
 }

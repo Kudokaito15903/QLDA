@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.example.server.dto.request.OrderRequest;
 import com.example.server.dto.response.OrderResponse;
 public interface OrderService {
-    List<OrderResponse> getAllOrders();
+    Page<OrderResponse> getAllOrders(Pageable pageable);
     Page<OrderResponse> findAllPage(Pageable pageable);
     Page<OrderResponse> findByFullnamePageable(String username, Pageable pageable);
     Page<OrderResponse> findByStatusPageable(String status, Pageable pageable);
@@ -27,5 +27,6 @@ public interface OrderService {
     );
     Map<String, Object> getTotalOrder();
     Map<String, Object> getTotalProfit();
+    Page<OrderResponse> findByUsernameContaining(String username, Pageable pageable);
 }
 

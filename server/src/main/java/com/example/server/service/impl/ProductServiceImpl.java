@@ -65,6 +65,11 @@ public class ProductServiceImpl implements ProductService {
             sellingPrice,
             pageable
         );
+        if (products.isEmpty()) {
+            Page<Product> productAllPage = productRepository.findAll(pageable);
+            return productAllPage.map(this::toResponse);
+        }
+
         return products.map(this::toResponse);
     }
 
@@ -193,15 +198,7 @@ public class ProductServiceImpl implements ProductService {
         response.setSold(product.getSold());
         response.setProductType(product.getProductType());
         response.setBrand(product.getBrand());
-        response.setCreatedDate(product.getCreatedDate());
-        
-        // Add specific info based on product type
-        if (product.getHeadphoneInfo() != null) {
-            response.setProductSpecs(product.getHeadphoneInfo());
-        } else if (product.getProductInfo() != null) {
-            response.setProductSpecs(product.getProductInfo());
-        }
-        
+        response.setCreatedDate(product.getCreatedDate());        
         return response;
     }
 }
