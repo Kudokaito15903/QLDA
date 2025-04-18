@@ -73,11 +73,17 @@ export default function User() {
   };
 
   const filterUsers = useMemo(() => {
+    if (!query.trim()) {
+      return users;
+    }
     return users.filter((user) => {
       const title = titleRef.current?.value;
       switch (title) {
         case "userid":
-          return user.id.toString().includes(query);
+          if(!isNaN(query) && query.trim() !== ''){
+            return user.id.toString().includes(query);
+          }
+          return false;
         case "email":
           return user.email.toLowerCase().includes(query.toLowerCase());
         default:
@@ -87,6 +93,9 @@ export default function User() {
   }, [query, users]);
 
   const rowsDisplay = useMemo(() => {
+    if (!query.trim()) {
+      return users;
+    }
     return filterUsers.map((item) => {
       const day = new Date(item.createdAt);
       const formattedDate = day.toLocaleDateString("en-US", {

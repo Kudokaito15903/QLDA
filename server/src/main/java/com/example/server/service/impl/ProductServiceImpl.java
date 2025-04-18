@@ -99,7 +99,11 @@ public class ProductServiceImpl implements ProductService {
                     .microphone_sensitivity((String) request.getHeadphoneSpecs().get("microphoneSensitivity"))
                     .microphone_frequency_range((String) request.getHeadphoneSpecs().get("microphoneFrequencyRange"))
                     .build();
-            headphoneInfoRepository.save(headphoneInfo);
+            try {
+                headphoneInfoRepository.save(headphoneInfo);
+            } catch (Exception e) {
+                log.error("Error saving headphone info: {}", e.getMessage());
+            }
         } else if (request.getProductSpecs() != null) {
             ProductInfo productInfo = ProductInfo.builder()
                     .product(savedProduct)

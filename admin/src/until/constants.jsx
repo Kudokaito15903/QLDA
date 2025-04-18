@@ -7,6 +7,7 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { IoColorFilterSharp, IoInformationCircle } from "react-icons/io5";
 
 export const UserTitle = ["User ID", "Name", "Phone", "Create At", "Action"];
+export const ProductTitle = ["Product ID", "Image", "Name", "Price", "Category", "Brand", "Action"];
 export const sidebarSmall = [
     { name: "Dashboard", url: "/", icon: AiOutlineHome },
     { name: "Orders", url: "/orders", icon: MdOutlineShoppingCart },
@@ -43,4 +44,4 @@ export const productItem = [
 export const adminItem = [
     { name: "Manage Admins", url: "/admin", icon: RiAdminLine },
 ];
-  
+ 
