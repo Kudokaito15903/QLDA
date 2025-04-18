@@ -41,13 +41,13 @@ import org.springframework.data.domain.Page;
             return ResponseEntity.ok(response);
         }
 
-        @GetMapping("/{productType}")
+        @GetMapping("/type/{productType}")
         public ResponseEntity<Page<ProductResponse>> getProductsByType(@PathVariable String productType, @RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size){
             Pageable pageable = PageRequest.of(page, size);
             Page<ProductResponse> products = productService.getProductsByType(productType, pageable);
             return ResponseEntity.ok(products);
         }
-        @GetMapping("/{brand}")
+        @GetMapping("/brand/{brand}")
         public ResponseEntity<Page<ProductResponse>> getProductsByBrand(@PathVariable String brand, @RequestParam (defaultValue = "0") int page, @RequestParam (defaultValue = "10") int size){
             Pageable pageable = PageRequest.of(page, size);
             Page<ProductResponse> products = productService.getProductsByBrand(brand, pageable);

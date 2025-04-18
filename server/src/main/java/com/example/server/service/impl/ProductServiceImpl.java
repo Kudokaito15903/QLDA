@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResponse> getProductsByBrand(String brand, Pageable pageable) {
-        Page<Product> products = productRepository.findByProductTypeContaining(brand, pageable);
+        Page<Product> products = productRepository.findByBrandContaining(brand, pageable);
         return products.map(this::toResponse);
     }
 
