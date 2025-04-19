@@ -6,24 +6,27 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { UserTitle } from "../until/constants";
 import ExportToExcel from "../components/ExportToExcel";
-
+import Pagination from "../components/Pagination";
+import { UserColumnsToExport } from "../until/constants";
 export default function User() {
   const [query, setQuery] = useState("");
   const titleRef = useRef(null);
   const [users, setUsers] = useState([]);
-  const columnsToExport = [
-    { header: "ID", accessor: "id" },
-    { header: "Username", accessor: "username" },
-    { header: "Email", accessor: "email" },
-    { header: "Phone", accessor: "phonenumber" },
-    { header: "Created At", accessor: "createdAt" },
-  ];
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   const fetchUsers = async () => {
     try {
       const res = await axios.get(`http://localhost:8080/api/users`);
       const activeUsers = res.data.filter(user => user.isActive);
       setUsers(activeUsers);
+            
+      const itemsPerPage = 10;
+      setTotalPages(Math.ceil(activeUsers.length / itemsPerPage));
+      
+      const start = currentPage * itemsPerPage;
+      const end = start + itemsPerPage;
+      setUsers(activeUsers.slice(start, end));
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +34,7 @@ export default function User() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [currentPage]);
 
   const handleDeleteUser = async (id) => {
     Swal.fire({
@@ -93,9 +96,6 @@ export default function User() {
   }, [query, users]);
 
   const rowsDisplay = useMemo(() => {
-    if (!query.trim()) {
-      return users;
-    }
     return filterUsers.map((item) => {
       const day = new Date(item.createdAt);
       const formattedDate = day.toLocaleDateString("en-US", {
@@ -104,20 +104,22 @@ export default function User() {
         year: "numeric",
       });
       return (
-        <tr key={item.id}>
+        <tr key={item.id} className="hover:bg-gray-50 transition-colors duration-150">
           <td>{item.id}</td>
           <td>
-            <div className="font-bold">{item.username}</div>
-            <div className="text-sm opacity-50 font-semibold">{item.email}</div>
+            <div className="font-bold text-gray-800">{item.username}</div>
+            <div className="text-sm text-gray-500 font-medium">{item.email}</div>
           </td>
-          <td>{item.phonenumber || "Not Available"}</td>
-          <td>{formattedDate}</td>
+          <td className="text-gray-700">{item.phonenumber || "Not Available"}</td>
+          <td className="text-gray-700">{formattedDate}</td>
           <td>
-            <div className="flex text-xl gap-3 cursor-pointer ">
-              <FaRegTrashCan
+            <div className="flex text-xl justify-center cursor-pointer">
+              <button 
                 onClick={() => handleDeleteUser(item.id)}
-                className="text-red-500 hover:text-red-700"
-              />
+                className="p-2 rounded-full hover:bg-red-100 transition-colors duration-200 group"
+              >
+                <FaRegTrashCan className="text-red-500 group-hover:text-red-700" />
+              </button>
             </div>
           </td>
         </tr>
@@ -125,33 +127,59 @@ export default function User() {
     });
   }, [filterUsers]);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="overflow-auto bg-white sm:m-6">
-      <TopSection 
-        query={query} 
-        setQuery={setQuery} 
-        titleRef={titleRef} 
-        filterUsers={filterUsers} 
-        columnsToExport={columnsToExport} 
-      />
-      <Table title={UserTitle} RowsDisplay={rowsDisplay} />
+    <div className="overflow-auto bg-white rounded-xl shadow-lg sm:m-6">
+      <div className="p-6 border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">User Management</h2>
+        <TopSection 
+          query={query} 
+          setQuery={setQuery} 
+          titleRef={titleRef} 
+          filterUsers={filterUsers} 
+          columnsToExport={UserColumnsToExport} 
+        />
+      </div>
+      <div className="px-6">
+        <Table title={UserTitle} RowsDisplay={rowsDisplay} />
+      </div>
+      
+      {totalPages > 1 && (
+        <div className="px-6 pb-6">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   );
 }
 
 function TopSection({ query, setQuery, titleRef, filterUsers, columnsToExport }) {
   return (
-    <div className="flex items-center justify-between m-4 flex-wrap gap-2">
-      <div className="flex items-center gap-2 border-b-2 flex-wrap">
-        <IoMdSearch className="text-2xl rounded-lg hidden sm:block" />
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="h-8 focus:outline-none"
-          placeholder="Search..."
-        />
-        <select ref={titleRef} defaultValue="username">
+    <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex items-center gap-2 border-b-2 border-gray-300 focus-within:border-blue-500 transition-colors duration-200 px-2 py-1 rounded-t-md">
+          <IoMdSearch className="text-2xl text-gray-500" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="h-8 focus:outline-none w-52"
+            placeholder="Search users..."
+          />
+        </div>
+        <select 
+          ref={titleRef} 
+          defaultValue="username"
+          onChange={() => setQuery("")}
+          className="select select-bordered rounded-md h-10 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+        >
           <option value="username">Username</option>
           <option value="userid">User ID</option>
           <option value="email">Email</option>
