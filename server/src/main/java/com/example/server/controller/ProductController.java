@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.server.dto.response.ProductResponse;
 import com.example.server.service.ProductService;
+import com.example.server.dto.response.ProductDetailRes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +32,11 @@ public class ProductController {
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }
-
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<ProductDetailRes> getProductDetail(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductDetail(id));
+    }
+    
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -82,15 +87,9 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/view/productID/{productID}")
-    public ResponseEntity<ProductResponse> viewProductID(@PathVariable Long productID) {
-        ProductResponse product = productService.getProductById(productID);
-        return ResponseEntity.ok(product);
-    }
-
-    @PutMapping("/updateSold")
-    public ResponseEntity<Void> updateProductSold(ProductResponse productNew) {
-        productService.updateProductSold( productNew);
+    @PutMapping("/updateSold/{id}/{sold}")
+    public ResponseEntity<Void> updateProductSold(@PathVariable Long id, @PathVariable int sold) {
+        productService.updateProductSold(id, sold);
         return ResponseEntity.ok().build();
     }
 

@@ -1,6 +1,9 @@
 package com.example.server.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 import com.example.server.service.ProductService;
 import com.example.server.dto.request.ProductRequest;
-import com.example.server.dto.request.ProductUpdateRequest;
+import com.example.server.dto.response.ProductDetailRes;
 import com.example.server.dto.response.ProductResponse;
 import com.example.server.entity.Product;
 import com.example.server.entity.ProductInfo;
@@ -120,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(Long id, ProductUpdateRequest request) {
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
@@ -131,9 +134,81 @@ public class ProductServiceImpl implements ProductService {
         if (request.getDescription() != null) product.setDescription(request.getDescription());
         if (request.getProductType() != null) product.setProductType(request.getProductType());
         if (request.getBrand() != null) product.setBrand(request.getBrand());
-
         Product updatedProduct = productRepository.save(product);
+        if ("headphone".equalsIgnoreCase(request.getProductType()) && request.getHeadphoneSpecs() != null) {
+            Optional<HeadphoneInfo> headphoneInfo = headphoneInfoRepository.findByProductId(id);
+            if(headphoneInfo.isPresent()){
+                headphoneInfo.get().setHeadphone_type((String) request.getHeadphoneSpecs().get("headphoneType"));
+                headphoneInfo.get().setSpeaker_size((String) request.getHeadphoneSpecs().get("speakerSize"));
+                headphoneInfo.get().setSpeaker_sensitivity((String) request.getHeadphoneSpecs().get("speakerSensitivity"));
+                headphoneInfo.get().setSpeaker_impedance((String) request.getHeadphoneSpecs().get("speakerImpedance"));
+                headphoneInfo.get().setMicrophone_sensitivity((String) request.getHeadphoneSpecs().get("microphoneSensitivity"));
+                headphoneInfo.get().setMicrophone_frequency_range((String) request.getHeadphoneSpecs().get("microphoneFrequencyRange"));
+                headphoneInfoRepository.save(headphoneInfo.get());
+            }
+        }
+        if(request.getProductSpecs() != null){
+            Optional<ProductInfo> productInfo = productInfoRepository.findByProductId(id);
+            if(productInfo.isPresent()){
+                productInfo.get().setCPU((String) request.getProductSpecs().get("CPU"));
+                productInfo.get().setRAM((String) request.getProductSpecs().get("RAM"));
+                productInfo.get().setHardDrive((String) request.getProductSpecs().get("hardDrive"));
+                productInfo.get().setGPU((String) request.getProductSpecs().get("GPU"));
+                productInfo.get().setDisplay((String) request.getProductSpecs().get("Display"));
+                productInfo.get().setBattery((String) request.getProductSpecs().get("battery"));
+                productInfoRepository.save(productInfo.get());
+            }
+        }
         return toResponse(updatedProduct);
+    }
+    @Override
+    public ProductDetailRes getProductDetail(Long id){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        if (product.getProductType().equals("headphone")){
+            HeadphoneInfo headphoneInfo = headphoneInfoRepository.findByProductId(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("HeadphoneInfo not found with id: " + id));
+            Map<String, Object> headphoneSpecs = new HashMap<>();
+            headphoneSpecs.put("headphoneType", headphoneInfo.getHeadphone_type());
+            headphoneSpecs.put("speakerSize", headphoneInfo.getSpeaker_size());
+            headphoneSpecs.put("speakerSensitivity", headphoneInfo.getSpeaker_sensitivity());
+            headphoneSpecs.put("speakerImpedance", headphoneInfo.getSpeaker_impedance());
+            headphoneSpecs.put("microphoneSensitivity", headphoneInfo.getMicrophone_sensitivity());
+            headphoneSpecs.put("microphoneFrequencyRange", headphoneInfo.getMicrophone_frequency_range());
+            return ProductDetailRes.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .sellingPrice(product.getSellingPrice())
+                    .originalPrice(product.getOriginalPrice())
+                    .image(product.getImage())
+                    .description(product.getDescription())
+                    .productType(product.getProductType())
+                    .brand(product.getBrand())
+                    .headphoneSpecs(headphoneSpecs)
+                    .build();
+        }
+        else{
+            ProductInfo productInfo = productInfoRepository.findByProductId(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("ProductInfo not found with id: " + id));
+            Map<String, Object> productSpecs = new HashMap<>();
+            productSpecs.put("CPU", productInfo.getCPU());
+            productSpecs.put("RAM", productInfo.getRAM());
+            productSpecs.put("hardDrive", productInfo.getHardDrive());
+            productSpecs.put("GPU", productInfo.getGPU());
+            productSpecs.put("Display", productInfo.getDisplay());
+            productSpecs.put("battery", productInfo.getBattery());
+            return ProductDetailRes.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .sellingPrice(product.getSellingPrice())
+                    .originalPrice(product.getOriginalPrice())
+                    .image(product.getImage())
+                    .description(product.getDescription())
+                    .productType(product.getProductType())
+                    .brand(product.getBrand())
+                    .productSpecs(productSpecs)
+                    .build();
+        }
     }
 
     @Override
@@ -153,18 +228,6 @@ public class ProductServiceImpl implements ProductService {
         return products.map(this::toResponse);
     }
 
-    @Override
-    public ProductResponse updateProductStock(Long id, int quantityChange) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
-
-        // Update sold quantity
-        int currentSold = product.getSold() != null ? product.getSold() : 0;
-        product.setSold(currentSold + quantityChange);
-
-        Product updatedProduct = productRepository.save(product);
-        return toResponse(updatedProduct);
-    }
     @Override 
     public List<ProductResponse> sortByName(){
         List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
@@ -173,11 +236,11 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
     @Override
-    public void updateProductSold(ProductResponse productNew){
-        Product product = productRepository.findById(productNew.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productNew.getId()));
+    public void updateProductSold(Long id, int sold){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         Integer newSold = product.getSold();
-        product.setSold(newSold + productNew.getSold());
+        product.setSold(newSold + sold);
         productRepository.save(product);
     }
 
@@ -196,4 +259,5 @@ public class ProductServiceImpl implements ProductService {
         response.setCreatedDate(product.getCreatedDate());        
         return response;
     }
+    
 }

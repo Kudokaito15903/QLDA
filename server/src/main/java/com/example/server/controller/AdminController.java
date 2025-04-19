@@ -9,7 +9,6 @@ import com.example.server.dto.response.AdminResponse;
 import com.example.server.entity.Admin;
 import com.example.server.service.AdminService;
 import com.example.server.dto.request.ProductRequest;
-import com.example.server.dto.request.ProductUpdateRequest;
 import com.example.server.dto.response.ProductResponse;
 import com.example.server.service.ProductService;
 import com.example.server.service.OrderService;
@@ -57,7 +56,7 @@ public class AdminController {
 
     @Operation(summary = "Update product", description = "Update product information by ID")
     @PutMapping("/updateProduct/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
         ProductResponse product = productService.updateProduct(id, request);
         return ResponseEntity.ok(product);
     }
