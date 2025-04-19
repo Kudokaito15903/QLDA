@@ -69,6 +69,7 @@ public class WishlistServiceImpl implements WishlistService {
     private WishlistResponse toWishlistResponse(Wishlist wishlist){
         return WishlistResponse.builder()
                 .id(wishlist.getId())
+                .productId(wishlist.getProduct().getId())
                 .userName(wishlist.getUser().getUsername())
                 .productName(wishlist.getProduct().getName())
                 .productPrice(wishlist.getProduct().getSellingPrice())
