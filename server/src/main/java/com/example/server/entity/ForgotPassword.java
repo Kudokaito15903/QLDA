@@ -1,6 +1,6 @@
 package com.example.server.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,12 +30,6 @@ public class ForgotPassword {
 
     @Column(nullable = false)
     private Integer otp;
-
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private boolean used = false;
 
     @Column(nullable = false)
     private Date expirationTime;

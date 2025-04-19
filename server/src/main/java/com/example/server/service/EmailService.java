@@ -2,7 +2,7 @@ package com.example.server.service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
+import com.example.server.dto.request.MailBodyRequest;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
@@ -10,14 +10,12 @@ import lombok.RequiredArgsConstructor;
 public class EmailService {
     private final JavaMailSender mailSender;
 
-    public void sendSimpleEmail(String toEmail, String subject, String body) {
+    public void sendEmail(MailBodyRequest mailBodyRequest){
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("hauhau10932@gmail.com");
-        message.setTo(toEmail);
-        message.setSubject(subject);
-        message.setText(body);
-
+        message.setFrom(mailBodyRequest.getFrom());
+        message.setTo(mailBodyRequest.getTo());
+        message.setSubject(mailBodyRequest.getSubject());
+        message.setText(mailBodyRequest.getText());
         mailSender.send(message);
-        System.out.println("Email sent successfully!");
     }
 }

@@ -3,7 +3,7 @@ package com.example.server.service;
 import com.example.server.dto.request.UserRequest;
 import com.example.server.dto.response.UserResponse;
 import com.example.server.entity.User;
-
+import com.example.server.dto.request.ChangePassword;
 import java.util.List;
 
 public interface UserService {
@@ -14,13 +14,8 @@ public interface UserService {
     UserResponse updateUser(Long id, UserRequest request);
     UserResponse findById(Long id);
     boolean existsByEmail(String email);
-    boolean updatePassword(String email, String newPassword);
+    boolean updatePassword(String email, ChangePassword changePassword);
     User findByEmail(String email);
     UserResponse login(String username, String password);
    
-    // // Password reset methods
-    // boolean existsByEmail(String email);
-    // String generatePasswordResetToken(String email);
-    // boolean resetPassword(String token, String newPassword);
-    // boolean validatePasswordResetToken(String token);
 }

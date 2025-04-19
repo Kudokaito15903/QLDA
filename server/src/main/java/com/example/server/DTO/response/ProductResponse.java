@@ -22,7 +22,6 @@ public class ProductResponse {
     private Integer sold;
     private String productType;
     private String brand;
+    private boolean isDeleted;
     private Date createdDate;
-  
-
 }

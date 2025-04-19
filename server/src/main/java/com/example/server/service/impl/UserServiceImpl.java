@@ -4,16 +4,14 @@ import com.example.server.dto.request.UserRequest;
 import com.example.server.dto.response.UserResponse;
 import com.example.server.entity.User;
 import com.example.server.repositories.UserRepository;
-// import com.example.server.repositories.PasswordResetTokenRepository;
 import com.example.server.service.UserService;
+import com.example.server.dto.request.ChangePassword;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.example.server.repositories.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    private final OrderRepository orderRepository;
 
     @Override
     public List<UserResponse> findAll() {
@@ -138,12 +134,12 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public boolean updatePassword(String email, String newPassword) {
+    public boolean updatePassword(String email, ChangePassword changePassword) {
         try {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
             
-            user.setPassword(newPassword);
+            user.setPassword(changePassword.getPassword());
             userRepository.save(user);
             log.info("Password updated successfully for user with email: {}", email);
             return true;
@@ -163,75 +159,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Invalid password");
         }
     }
- 
-    // @Override
-    // public String generatePasswordResetToken(String email) {
-    //     log.info("Generating password reset token for email: {}", email);
-    //     User user = userRepository.findByEmail(email)
-    //             .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-        
-    //     // Delete any existing tokens for this user
-    //     passwordResetTokenRepository.findByUser(user).ifPresent(token -> {
-    //         passwordResetTokenRepository.delete(token);
-    //     });
-        
-    //     // Generate token
-    //     String token = UUID.randomUUID().toString();
-        
-    //     // Set expiry date (24 hours)
-    //     Calendar calendar = Calendar.getInstance();
-    //     calendar.add(Calendar.DAY_OF_MONTH, 1);
-        
-    //     PasswordResetToken passwordResetToken = PasswordResetToken.builder()
-    //             .token(token)
-    //             .user(user)
-    //             .expiryDate(calendar.getTime())
-    //             .build();
-        
-    //     passwordResetTokenRepository.save(passwordResetToken);
-    //     log.info("Password reset token generated successfully for user ID: {}", user.getId());
-        
-    //     return token;
-    // }
-    
-    // @Override
-    // public boolean resetPassword(String token, String newPassword) {
-    //     log.info("Resetting password with token");
-        
-    //     PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-    //             .orElse(null);
-        
-    //     if (resetToken == null || resetToken.isExpired()) {
-    //         log.warn("Invalid or expired password reset token");
-    //         return false;
-    //     }
-        
-    //     User user = resetToken.getUser();
-        
-    //     // Update password
-    //     user.setPassword(newPassword);
-    //     userRepository.save(user);
-        
-    //     // Delete used token
-    //     passwordResetTokenRepository.delete(resetToken);
-        
-    //     log.info("Password reset successfully for user ID: {}", user.getId());
-    //     return true;
-    // }
-    
-    // @Override
-    // public boolean validatePasswordResetToken(String token) {
-    //     PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-    //             .orElse(null);
-        
-    //     if (resetToken == null || resetToken.isExpired()) {
-    //         log.warn("Invalid or expired password reset token");
-    //         return false;
-    //     }
-        
-    //     return true;
-    // }
-    
+     
     private User toEntity(UserRequest request) {
         return User.builder()
                 .fullname(request.getFullname())

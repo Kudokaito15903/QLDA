@@ -11,9 +11,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MailBodyRequest {
-    private String to;
-    private String from;
-    private String subject;
-    private String text;
+public class ChangePassword {
+    private String password;
+    private String repeatPassword;
 }
+
