@@ -173,11 +173,11 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
     @Override
-    public void updateProductSold(Long id){
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+    public void updateProductSold(ProductResponse productNew){
+        Product product = productRepository.findById(productNew.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productNew.getId()));
         Integer newSold = product.getSold();
-        product.setSold(newSold + product.getSold());
+        product.setSold(newSold + productNew.getSold());
         productRepository.save(product);
     }
 

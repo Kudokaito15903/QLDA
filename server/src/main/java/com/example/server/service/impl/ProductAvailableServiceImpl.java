@@ -50,7 +50,7 @@ public class ProductAvailableServiceImpl implements ProductAvailableService {
     public void UpdateProductQuantity(ProductAvailableRequest request) {
         Long productID = request.getProductId();
         String color = request.getColor();
-        Integer quantity = request.getAvailable();
+        Integer quantity = request.getOrderQuantity();
         List<ProductAvailable> productAvailables = productAvailableRepository.findAll();
         productAvailables.stream()
             .filter(productAvailable -> productAvailable.getProduct().getId().equals(productID) && productAvailable.getColor().equals(color))
