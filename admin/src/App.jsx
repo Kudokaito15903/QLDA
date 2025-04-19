@@ -11,7 +11,6 @@ import Reviews from './pages/Reviews.jsx';
 import Orders from './pages/Orders.jsx';
 import AddProduct from './components/Product/AddProduct.jsx';
 import { ProtectedRoute, PublicRoute } from './middleware/AuthMiddleware';
-
 export default function App() {
   const { LoginData, url } = useContext(LoginContext);
   return (
@@ -28,7 +27,10 @@ export default function App() {
                     <LoginPage />
                   </PublicRoute>
                 } 
-              />              
+              />  
+
+              {/* Admin Management */} 
+                         
               <Route 
                 path="/" 
                 element={

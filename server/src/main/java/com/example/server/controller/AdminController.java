@@ -12,7 +12,6 @@ import com.example.server.dto.request.ProductRequest;
 import com.example.server.dto.request.ProductUpdateRequest;
 import com.example.server.dto.response.ProductResponse;
 import com.example.server.service.ProductService;
-import com.example.server.dto.request.ProductTypeStat;
 import com.example.server.service.OrderService;
 
 import java.util.List;
@@ -23,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -84,22 +84,17 @@ public class AdminController {
     @Operation(summary = "Get top trending products", description = "Get list of top selling products")
     @GetMapping("/trending_products")
     public ResponseEntity<Page<ProductResponse>> getTopSellingProducts(
-            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "5") int limit,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "sold") String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
         Page<ProductResponse> products = productService.getTopSellingProducts(limit, pageable);
         return ResponseEntity.ok(products);
     }
 
     @Operation(summary = "Get top selling category", description = "Get the product category with highest sales")
-    @GetMapping("/top_category")
-    public ResponseEntity<List<ProductTypeStat>> getTopCategoryProducts() {
-        List<ProductTypeStat> products = productService.getTopCategoryProducts();
-        return ResponseEntity.ok(products);
-    }
 
-    @Operation(summary = "Get total orders", description = "Get total number of orders placed")
     @GetMapping("/total_order")
     public ResponseEntity<Map<String, Object>> getTotalOrder() {
         return ResponseEntity.ok(orderService.getTotalOrder());

@@ -21,7 +21,7 @@ export default function User() {
       const activeUsers = res.data.filter(user => user.isActive);
       setUsers(activeUsers);
             
-      const itemsPerPage = 10;
+      const itemsPerPage =6;
       setTotalPages(Math.ceil(activeUsers.length / itemsPerPage));
       
       const start = currentPage * itemsPerPage;

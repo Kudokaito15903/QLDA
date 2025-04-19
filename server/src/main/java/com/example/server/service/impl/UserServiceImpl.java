@@ -9,8 +9,11 @@ import com.example.server.dto.request.ChangePassword;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -152,12 +155,27 @@ public class UserServiceImpl implements UserService {
     public UserResponse login(String username, String password) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
-        if(user.getPassword().equals(password)){
+        if(user.getPassword().equals(password) && user.getIsActive()){
             return toResponse(user);
         }
         else{
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException("Invalid password or account is not active");
         }
+    }
+    @Override
+    public Map<String, Object> graph_users() {
+        Map<String, Object> responses = new HashMap<>();
+        List<User> users = userRepository.findAll();
+        int total_user = users.size();
+        Map<String,Integer> UserByDay = new HashMap<>();
+        for(User user : users){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String date = format.format(user.getCreatedAt());
+            UserByDay.put(date, UserByDay.getOrDefault(date, 0) + 1);
+        }
+        responses.put("total_user", total_user);
+        responses.put("UserByDay", UserByDay);
+        return responses;
     }
      
     private User toEntity(UserRequest request) {

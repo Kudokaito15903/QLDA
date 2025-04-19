@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.server.dto.request.ProductRequest;
-import com.example.server.dto.request.ProductTypeStat;
 import com.example.server.dto.request.ProductUpdateRequest;
 import com.example.server.dto.response.ProductResponse;
 
@@ -23,8 +22,6 @@ public interface ProductService {
     ProductResponse updateProductStock(Long id, int quantityChange);
     List<ProductResponse> sortByName();
     void updateProductSold(Long id);
-    List<ProductTypeStat> getTopCategoryProducts();
-
 }
 
 

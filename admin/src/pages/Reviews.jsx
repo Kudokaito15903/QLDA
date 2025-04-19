@@ -1,6 +1,5 @@
 import { BiUserCircle } from "react-icons/bi";
 import { StarRating } from "../until/constants";
-import { MdReport } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Swal from "sweetalert2";
@@ -168,7 +167,7 @@ const handleDeleteReview = (review_id, onDelete) => {
       try {
         const res = await axios.delete(`http://localhost:8080/api/comments/delete_review/${review_id}`);
         
-        if (res.status === 200) {
+        if (res.status === 204) {
           Swal.fire({
             icon: "success",
             title: "Review deleted successfully!",
