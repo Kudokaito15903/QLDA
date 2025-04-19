@@ -69,9 +69,6 @@ export const productItem = [
     },
 ];
 
-export const adminItem = [
-    { name: "Manage Admins", url: "/admin", icon: RiAdminLine },
-];
 export const StarRating = ({ star }) => {
   const rate = [];
   for (let i = 1; i <= 5; i++) {

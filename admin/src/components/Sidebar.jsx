@@ -1,5 +1,5 @@
 import { NavbarFirstSection } from "./Navbar"
-import { sidebarSmall, mainMenuItem, productItem, adminItem } from "../until/constants"
+import { sidebarSmall, mainMenuItem, productItem } from "../until/constants"
 import { Link } from "react-router-dom"
 import useSidebarContext from "../context/SidebarContext"
 import { MdLogout } from "react-icons/md"
@@ -48,9 +48,7 @@ export default function Sidebar() {
 
         {/* Phần chính */}
         <SidebarSection title="MAIN MENU" items={mainMenuItem} selectedPageURL={selectedPageURL} setSelectedPageURL={setSelectedPageURL} />
-        <SidebarSection title="PRODUCTS" items={productItem} selectedPageURL={selectedPageURL} setSelectedPageURL={setSelectedPageURL} />
-        <SidebarSection title="ADMIN" items={adminItem} selectedPageURL={selectedPageURL} setSelectedPageURL={setSelectedPageURL} />
-        
+        <SidebarSection title="PRODUCTS" items={productItem} selectedPageURL={selectedPageURL} setSelectedPageURL={setSelectedPageURL} />        
         <LogoutButton />
       </aside>
     </>

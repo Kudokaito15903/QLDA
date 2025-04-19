@@ -21,7 +21,7 @@ public interface ProductService {
     Page<ProductResponse> getTopSellingProducts(int limit, Pageable pageable);
     ProductResponse updateProductStock(Long id, int quantityChange);
     List<ProductResponse> sortByName();
-    void updateProductSold(Long id);
+    void updateProductSold(ProductResponse productNew);
 }
 
 

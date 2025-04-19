@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.dto.request.UpdateUserRequet;
 import com.example.server.dto.request.UserRequest;
 import com.example.server.dto.response.UserResponse;
 import com.example.server.service.UserService;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequet request) {
         try {
             UserResponse updatedUser = userService.updateUser(id, request);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);

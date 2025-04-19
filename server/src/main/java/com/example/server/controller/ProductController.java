@@ -88,9 +88,9 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/updateSold/{id}")
-    public ResponseEntity<Void> updateProductSold(@PathVariable Long id) {
-        productService.updateProductSold(id);
+    @PutMapping("/updateSold")
+    public ResponseEntity<Void> updateProductSold(ProductResponse productNew) {
+        productService.updateProductSold( productNew);
         return ResponseEntity.ok().build();
     }
 

@@ -12,4 +12,5 @@ public class ProductAvailableRequest {
     private Long productId;
     private Integer available;
     private String color;
+    private Integer orderQuantity;
 }
