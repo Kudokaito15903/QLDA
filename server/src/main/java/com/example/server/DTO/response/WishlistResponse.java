@@ -9,6 +9,7 @@ import lombok.Getter;
 
 public class WishlistResponse {
     private Long id;
+    private Long productId; 
     private String userName;
     private String productName;
     private Integer productPrice;
