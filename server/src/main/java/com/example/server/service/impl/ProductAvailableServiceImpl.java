@@ -3,6 +3,8 @@ package com.example.server.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.server.dto.request.ProductAvailableRequest;
@@ -21,11 +23,14 @@ public class ProductAvailableServiceImpl implements ProductAvailableService {
     private final ProductAvailableRepository productAvailableRepository;
     private final ProductRepository productRepository;
     @Override
-    public List<ProductAvailableResponse> findAll() {
-        List<ProductAvailable> productAvailables = productAvailableRepository.findAll();
-        return productAvailables.stream()
-            .map(this::convertToResponse)
-            .collect(Collectors.toList());
+    public Page<ProductAvailableResponse> findAll(Pageable pageable) {
+        Page<ProductAvailable> productAvailables = productAvailableRepository.findAll(pageable);
+        return productAvailables.map(this::convertToResponse);
+    }
+    @Override
+    public Page<ProductAvailableResponse> findByProductID(Long productID, Pageable pageable) {
+        Page<ProductAvailable> productAvailables = productAvailableRepository.findByProductId(productID, pageable);
+        return productAvailables.map(this::convertToResponse);
     }
 
     @Override

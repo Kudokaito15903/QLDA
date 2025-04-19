@@ -18,6 +18,7 @@ public class ProductDetailRes {
     private String description;
     private String productType;
     private String brand; 
+    private Integer sold;
     private Map<String, Object> productSpecs;
     private Map<String, Object> headphoneSpecs;
 }

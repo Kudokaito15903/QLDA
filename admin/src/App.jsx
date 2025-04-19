@@ -10,7 +10,9 @@ import Product from './pages/Product.jsx';
 import Reviews from './pages/Reviews.jsx';
 import Orders from './pages/Orders.jsx';
 import AddProduct from './components/Product/AddProduct.jsx';
+import ProductDetails from './pages/ProductDetails.jsx';
 import { ProtectedRoute, PublicRoute } from './middleware/AuthMiddleware';
+import ProductAvailable from './components/Product/ProductAvailable.jsx';
 export default function App() {
   const { LoginData, url } = useContext(LoginContext);
   return (
@@ -64,6 +66,14 @@ export default function App() {
                 } 
               />
               <Route 
+                path="/product/:id" 
+                element={
+                  <ProtectedRoute>
+                    <ProductDetails />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/reviews" 
                 element={
                   <ProtectedRoute>
@@ -78,6 +88,14 @@ export default function App() {
                     <Orders />
                   </ProtectedRoute>
                 } 
+              />
+              <Route
+                path="/product/available"
+                element={
+                  <ProtectedRoute>
+                    <ProductAvailable />
+                  </ProtectedRoute>
+                }
               />
             </Routes>
           </main>

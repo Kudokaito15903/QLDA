@@ -184,6 +184,7 @@ public class ProductServiceImpl implements ProductService {
                     .description(product.getDescription())
                     .productType(product.getProductType())
                     .brand(product.getBrand())
+                    .sold(product.getSold())
                     .headphoneSpecs(headphoneSpecs)
                     .build();
         }
@@ -206,6 +207,7 @@ public class ProductServiceImpl implements ProductService {
                     .description(product.getDescription())
                     .productType(product.getProductType())
                     .brand(product.getBrand())
+                    .sold(product.getSold())
                     .productSpecs(productSpecs)
                     .build();
         }
