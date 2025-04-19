@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,6 +56,9 @@ public class Product {
 
     @Column(name ="brand")
     private String brand;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)

@@ -142,7 +142,10 @@ public class ProductServiceImpl implements ProductService {
         if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Product not found with id: " + id);
         }
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        product.setDeleted(true);
+        productRepository.save(product);
     }
 
     @Override
@@ -202,6 +205,7 @@ public class ProductServiceImpl implements ProductService {
         response.setSold(product.getSold());
         response.setProductType(product.getProductType());
         response.setBrand(product.getBrand());
+        response.setDeleted(product.isDeleted());
         response.setCreatedDate(product.getCreatedDate());        
         return response;
     }

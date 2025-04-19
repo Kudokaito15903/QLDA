@@ -15,6 +15,7 @@ import lombok.Setter;
 public class ProductRequest {
 
     @NotBlank
+    @NotNull
     private String name;
     
     @NotNull @Min(0)
