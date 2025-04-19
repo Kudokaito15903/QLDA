@@ -21,22 +21,34 @@ public class ForgotPasswordController {
     private final UserService userService;
     @PostMapping("/verifyEmail/{email}")
     public ResponseEntity<String> verifyEmail(@PathVariable String email) {
-        forgotPasswordService.verifyEmail(email);
-        return ResponseEntity.ok("Email verified");
+        try {
+            forgotPasswordService.verifyEmail(email);
+            return ResponseEntity.ok("Email verified");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     @PostMapping("/verifyOTP/{email}/{otp}")
     public ResponseEntity<String> verifyOTP(@PathVariable String email, @PathVariable Integer otp) {
-        forgotPasswordService.verifyOTP(email, otp);
-        return ResponseEntity.ok("OTP verified");
+        try {   
+            forgotPasswordService.verifyOTP(email, otp);
+            return ResponseEntity.ok("OTP verified");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/changePassword/{email}")
     public ResponseEntity<String> changePassword(@PathVariable String email, @RequestBody ChangePassword changePassword) {
-        if(changePassword.getPassword().equals(changePassword.getRepeatPassword())){
-            userService.updatePassword(email, changePassword);
-            return ResponseEntity.ok("Password changed");
+        try {
+            if(changePassword.getPassword().equals(changePassword.getRepeatPassword())){
+                userService.updatePassword(email, changePassword);
+                return ResponseEntity.ok("Password changed");
+            }
+            return ResponseEntity.badRequest().body("Password not match");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Password not match");
     }
 
 }
