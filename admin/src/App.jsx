@@ -7,7 +7,11 @@ import LoginContext from './context/LoginContext.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Navbar from './components/Navbar.jsx'; 
 import Product from './pages/Product.jsx';
+import Reviews from './pages/Reviews.jsx';
+import Orders from './pages/Orders.jsx';
 import AddProduct from './components/Product/AddProduct.jsx';
+import { ProtectedRoute, PublicRoute } from './middleware/AuthMiddleware';
+
 export default function App() {
   const { LoginData, url } = useContext(LoginContext);
   return (
@@ -17,11 +21,62 @@ export default function App() {
           {LoginData.loginState && url !== "/login" && <Sidebar />}
           <main className="overflow-auto p-4">
             <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/user" element={<User />} />
-              <Route path="/product" element={<Product />} />
-              <Route path="/product/add-product" element={<AddProduct />} />
+              <Route 
+                path="/login" 
+                element={
+                  <PublicRoute>
+                    <LoginPage />
+                  </PublicRoute>
+                } 
+              />              
+              <Route 
+                path="/" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/user" 
+                element={
+                  <ProtectedRoute>
+                    <User />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/product" 
+                element={
+                  <ProtectedRoute>
+                    <Product />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/product/add-product" 
+                element={
+                  <ProtectedRoute>
+                    <AddProduct />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/reviews" 
+                element={
+                  <ProtectedRoute>
+                    <Reviews />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/orders" 
+                element={
+                  <ProtectedRoute>
+                    <Orders />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </main>
         </div>
