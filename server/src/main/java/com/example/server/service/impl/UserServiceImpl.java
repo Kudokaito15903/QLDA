@@ -6,6 +6,8 @@ import com.example.server.entity.User;
 import com.example.server.repositories.UserRepository;
 import com.example.server.service.UserService;
 import com.example.server.dto.request.ChangePassword;
+import com.example.server.dto.request.UpdateUserRequet;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -90,22 +92,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(Long id, UserRequest request) {
+    public UserResponse updateUser(Long id, UpdateUserRequet request) {
         try {
             User existingUser = userRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-            
-            if (request != null) {
-                updateUserFromRequest(existingUser, request);
-                User updatedUser = userRepository.save(existingUser);
-                return toResponse(updatedUser);
-            }
-            
-            return toResponse(existingUser);
+            existingUser.setFullname(request.getFullname());
+            existingUser.setUsername(request.getUsername());
+            existingUser.setPhonenumber(request.getPhonenumber());
+            existingUser.setAddress(request.getAddress());
+            existingUser.setEmail(request.getEmail());
+            existingUser.setGender(request.getGender());
+            User updatedUser = userRepository.save(existingUser);
+            return toResponse(updatedUser);
         } catch (Exception e) {
-            if (e instanceof RuntimeException && e.getMessage().contains("User not found")) {
-                throw e;
-            }
             e.printStackTrace();
             throw new RuntimeException("Error updating user: " + e.getMessage());
         }
@@ -206,27 +205,5 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
     
-    private void updateUserFromRequest(User user, UserRequest request) {
-        if (request.getFullname() != null) {
-            user.setFullname(request.getFullname());
-        }
-        if (request.getUsername() != null) {
-            user.setUsername(request.getUsername());
-        }
-        if (request.getPassword() != null) {
-            user.setPassword(request.getPassword());
-        }
-        if (request.getPhonenumber() != null) {
-            user.setPhonenumber(request.getPhonenumber());
-        }
-        if (request.getAddress() != null) {
-            user.setAddress(request.getAddress());
-        }
-        if (request.getEmail() != null) {
-            user.setEmail(request.getEmail());
-        }
-        if (request.getGender() != null) {
-            user.setGender(request.getGender());
-        }
-    }
+  
 }
