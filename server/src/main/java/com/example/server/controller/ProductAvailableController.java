@@ -7,6 +7,9 @@ import com.example.server.service.ProductAvailableService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ProductAvailableController {
     private final ProductAvailableService productAvailableService;
     @GetMapping("/productAvailable")
-    public ResponseEntity<List<ProductAvailableResponse>> getAllProductAvailable(){
+    public ResponseEntity<Page<ProductAvailableResponse>> getAllProductAvailable(){
         try {
-            List<ProductAvailableResponse> productAvailable = productAvailableService.findAll();
+            Pageable pageable = PageRequest.of(0, 10);
+            Page<ProductAvailableResponse> productAvailable = productAvailableService.findAll(pageable);
             return ResponseEntity.ok(productAvailable);
         } catch (Exception e) {
             log.error("Error getting all product available: {}", e.getMessage());
@@ -54,9 +59,10 @@ public class ProductAvailableController {
         }
     }
     @GetMapping("/productAvailable/{productID}")
-    public ResponseEntity<ProductAvailableResponse> getProductAvailableByProductID(@PathVariable Long productID){
+    public ResponseEntity<Page<ProductAvailableResponse>> getProductAvailableByProductID(@PathVariable Long productID, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         try {
-            ProductAvailableResponse productAvailable = productAvailableService.findById(productID);
+            Pageable pageable = PageRequest.of(page, size);
+            Page<ProductAvailableResponse> productAvailable = productAvailableService.findByProductID(productID, pageable);
             return ResponseEntity.ok(productAvailable);
         } catch (Exception e) {
             log.error("Error getting product available: {}", e.getMessage());

@@ -188,7 +188,7 @@ const AddProduct = () => {
           <div className="form-control">
             <label className="label">
               <span className="label-text flex items-center font-medium text-gray-700">
-                <FiDollarSign className="mr-2" /> Selling Price
+                <FiDollarSign className="mr-2" /> Selling Price (VND)
               </span>
             </label>
             <input
@@ -205,7 +205,7 @@ const AddProduct = () => {
           <div className="form-control">
             <label className="label">
               <span className="label-text flex items-center font-medium text-gray-700">
-                <FiDollarSign className="mr-2" /> Original Price
+                <FiDollarSign className="mr-2" /> Original Price (VND)
               </span>
             </label>
             <input

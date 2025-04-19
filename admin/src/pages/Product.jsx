@@ -5,6 +5,7 @@ import { IoMdSearch } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs";
+import { FiInfo } from "react-icons/fi";
 import { ProductTitle, ProductColumnsToExport } from "../until/constants";
 import Table from "../components/Table";
 import useSidebarContext from "../context/SidebarContext";
@@ -12,6 +13,8 @@ import axios from "axios";
 import ExportToExcel from "../components/ExportToExcel";
 import Swal from "sweetalert2";
 import Pagination from "../components/Pagination";
+import EditProduct from "../components/Product/EditProduct";
+
 export default function Product() {
   const [query, setQuery] = useState("");
   const titleRef = useRef(null);
@@ -35,7 +38,7 @@ export default function Product() {
     }
   }
   
-  useEffect(() => {
+  useEffect(() => { 
     fetchProducts();
   }, [currentPage]);
 
@@ -43,9 +46,20 @@ export default function Product() {
     setCurrentPage(page);
   };
 
-  const handleEditClick = (product) => {
-    setSelectedProduct(product);
-    setIsEditModalOpen(true);
+  const handleEditClick = async (product) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/products/detail/${product.id}`);
+      setSelectedProduct(response.data);
+      setIsEditModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching product details:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Unable to load product details. Please try again!',
+        confirmButtonColor: '#d33'
+      });
+    }
   };
 
   const handleDeleteClick = (product) => {
@@ -133,11 +147,18 @@ export default function Product() {
             <img className="w-16" src={item.image} alt="" />
           </td>
           <td>{item.name}</td>
-          <td>$ {item.sellingPrice}</td>
+          <td>{item.sellingPrice.toLocaleString()} VND</td>
           <td>{item.productType}</td>
           <td>{item.brand}</td>
           <td>
             <div className="cursor-pointer text-xl flex gap-2 items-center ">
+              <Link 
+                to={`/product/${item.id}`}
+                onClick={() => setSelectedPageURL(`/product/${item.id}`)}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                <FiInfo />
+              </Link>
               <FaRegEdit 
                 onClick={() => handleEditClick(item)}
                 className="text-green-500 hover:text-green-700" 
@@ -213,7 +234,7 @@ export default function Product() {
               </button>
             </div>
             <div className="p-6 space-y-6">
-              <EditProductForm 
+              <EditProduct 
                 product={selectedProduct} 
                 onClose={() => setIsEditModalOpen(false)} 
                 onSuccess={() => {
@@ -269,181 +290,6 @@ export default function Product() {
         </div>
       )}
     </div>
-  );
-}
-
-// Component for editing product
-function EditProductForm({ product, onClose, onSuccess }) {
-  const [formData, setFormData] = useState({
-    name: product.name,
-    sellingPrice: product.sellingPrice,
-    originalPrice: product.originalPrice,
-    image: product.image,
-    description: product.description,
-    productType: product.productType,
-    brand: product.brand
-  });
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'sellingPrice' || name === 'originalPrice' ? parseFloat(value) : value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      await axios.put(`http://localhost:8080/api/admin/updateProduct/${product.id}`, formData);
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Product has been updated successfully',
-        confirmButtonColor: '#3085d6'
-      });
-      onSuccess();
-    } catch (error) {
-      console.error('Error updating product:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: 'Unable to update product. Please try again!',
-        confirmButtonColor: '#d33'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Product Name</span>
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Brand</span>
-          </label>
-          <input
-            type="text"
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-            className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Selling Price</span>
-          </label>
-          <input
-            type="number"
-            name="sellingPrice"
-            value={formData.sellingPrice}
-            onChange={handleChange}
-            className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            min="0"
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Original Price</span>
-          </label>
-          <input
-            type="number"
-            name="originalPrice"
-            value={formData.originalPrice}
-            onChange={handleChange}
-            className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            min="0"
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Image URL</span>
-          </label>
-          <input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            required
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium text-gray-700">Product Type</span>
-          </label>
-          <select
-            name="productType"
-            value={formData.productType}
-            onChange={handleChange}
-            className="select select-bordered w-full focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-            required
-          >
-            <option value="" disabled>Select product type</option>
-            <option value="headphone">Headphone</option>
-            <option value="laptop">Laptop</option>
-            <option value="smartphone">Smartphone</option>
-            <option value="tablet">Tablet</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text font-medium text-gray-700">Description</span>
-        </label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className="textarea textarea-bordered h-32 focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-          required
-        ></textarea>
-      </div>
-
-      <div className="flex justify-end gap-4 mt-6">
-        <button
-          type="button"
-          onClick={onClose}
-          className="btn btn-outline hover:bg-gray-200 transition-colors duration-200"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className={`btn btn-primary hover:bg-blue-600 transition-colors duration-200 ${loading ? 'loading' : ''}`}
-          disabled={loading}
-        >
-          {loading ? 'Processing...' : 'Update'}
-        </button>
-      </div>
-    </form>
   );
 }
 

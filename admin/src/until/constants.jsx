@@ -58,11 +58,6 @@ export const productItem = [
       icon: MdAddCircleOutline,
     },
     {
-      name: "Product Information",
-      url: "/product/product-info",
-      icon: IoInformationCircle,
-    },
-    {
       name: "Product Available",
       url:"/product/available",
       icon: IoColorFilterSharp,

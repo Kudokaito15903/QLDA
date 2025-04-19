@@ -31,8 +31,11 @@ public class ForgotPasswordController {
     @PostMapping("/verifyOTP/{email}/{otp}")
     public ResponseEntity<String> verifyOTP(@PathVariable String email, @PathVariable Integer otp) {
         try {   
-            String isVerified = forgotPasswordService.verifyOTP(email, otp);   
-            return ResponseEntity.ok(isVerified);
+            String isVerified = forgotPasswordService.verifyOTP(email, otp);  
+            if(isVerified.equals("OTP verified")){
+                return ResponseEntity.ok(isVerified);
+            }
+            return ResponseEntity.badRequest().body(isVerified);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

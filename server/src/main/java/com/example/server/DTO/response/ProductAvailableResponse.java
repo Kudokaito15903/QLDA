@@ -16,5 +16,4 @@ public class ProductAvailableResponse {
     private String color;
     private Integer available;
     private Date lastUpdated;
-
 }

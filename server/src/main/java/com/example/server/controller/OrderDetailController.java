@@ -2,19 +2,21 @@ package com.example.server.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.server.dto.request.OrderDetailRequest;
 import com.example.server.dto.response.OrderDetailResponse;
 import com.example.server.service.OrderDetailService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -38,7 +40,11 @@ public class OrderDetailController {
     }
     @PostMapping("/order-details")
     public void createOrderDetail(@RequestBody OrderDetailRequest request){
-        orderDetailService.createOrderDetail(request);
+        try{
+            orderDetailService.createOrderDetail(request);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating order detail");
+        }
     }
     @PutMapping("/order-details/{id}")
     public void updateOrderDetail(@PathVariable Long id, @RequestBody OrderDetailRequest request){

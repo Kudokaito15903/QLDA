@@ -86,6 +86,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
                 .map(this::toProductInfoResponse)
                 .collect(Collectors.toList());
     }
+    
 
     private ProductInfoResponse toProductInfoResponse(ProductInfo productInfo) {
         return ProductInfoResponse.builder()
