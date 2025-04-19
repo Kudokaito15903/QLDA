@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -102,5 +103,9 @@ public class UserController {
     public ResponseEntity<Void> logout() {
         return ResponseEntity.noContent().build();
     }
-
+    @GetMapping("/graph_users")
+    public ResponseEntity<Map<String, Object>> graphUsers() {
+        Map<String, Object> responses = userService.graph_users();
+        return new ResponseEntity<>(responses, HttpStatus.OK);
+    }
 } 

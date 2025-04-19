@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { ProductTitle, ProductColumnsToExport } from "../until/constants";
 import Table from "../components/Table";
 import useSidebarContext from "../context/SidebarContext";
@@ -20,13 +21,13 @@ export default function Product() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const { setSelectedPageURL } = useSidebarContext();
   
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`http://localhost:8080/api/products/?page=${currentPage}&size=5`);
-      console.log(res.data);
-      const activeProducts = res.data.filter(product => !product.isDeleted);
+      const activeProducts = res.data.products.filter(product => !product.deleted);
       setProducts(activeProducts);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -73,6 +74,14 @@ export default function Product() {
     }
   };
 
+  const handleSort = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
   const filterProducts = useMemo(() => {
     if (!query.trim()) {
       return products;
@@ -87,8 +96,8 @@ export default function Product() {
             return item.id === parseInt(query);
           }
           return false;
-        case "price":
-          return item.sellingPrice.toString().includes(query);
+        case "brand":
+          return item.brand.toString().includes(query);
         case "category":
           return item.productType.toLowerCase().includes(query.toLowerCase());
         default:
@@ -97,8 +106,26 @@ export default function Product() {
     })
   }, [query, products])
 
+  const sortedProducts = useMemo(() => {
+    let sortableProducts = [...filterProducts];
+    if (sortConfig.key !== null) {
+      sortableProducts.sort((a, b) => {
+        if (sortConfig.key === 'price') {
+          if (a.sellingPrice < b.sellingPrice) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a.sellingPrice > b.sellingPrice) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+        }
+        return 0;
+      });
+    }
+    return sortableProducts;
+  }, [filterProducts, sortConfig]);
+
   const rowsDisplay = useMemo(() => {
-    return filterProducts.map((item) => {
+    return sortedProducts.map((item) => {
       return (
         <tr key={item.id} className={`font-semibold`}>
           <td>{item.id}</td>
@@ -124,7 +151,7 @@ export default function Product() {
         </tr>
       );
     });
-  }, [filterProducts]);
+  }, [sortedProducts]);
 
   return (
     <div className="overflow-auto custom-scroll-container bg-white rounded-xl shadow-lg sm:m-6">
@@ -137,6 +164,8 @@ export default function Product() {
           setCurrentPage={setCurrentPage}
           filterProducts={filterProducts}
           columnsToExport={ProductColumnsToExport}
+          handleSort={handleSort}
+          sortConfig={sortConfig}
         />
       </div>
       <div className="px-6">
@@ -442,9 +471,20 @@ function TopSection(props) {
         >
           <option value="name">Name</option>
           <option value="productId">Product ID</option>
-          <option value="price">Price</option>
+          <option value="brand">Brand</option>
           <option value="category">Category</option>
         </select>
+        <button 
+          onClick={() => props.handleSort('price')}
+          className="btn btn-outline btn-sm flex items-center gap-1"
+        >
+          Sort by Price
+          {props.sortConfig.key === 'price' && (
+            props.sortConfig.direction === 'ascending' 
+              ? <BsArrowUp className="text-blue-500" />
+              : <BsArrowDown className="text-blue-500" />
+          )}
+        </button>
       </div>
       <ExportToExcel
         data={props.filterProducts}

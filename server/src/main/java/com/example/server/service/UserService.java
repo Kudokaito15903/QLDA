@@ -5,7 +5,7 @@ import com.example.server.dto.response.UserResponse;
 import com.example.server.entity.User;
 import com.example.server.dto.request.ChangePassword;
 import java.util.List;
-
+import java.util.Map;
 public interface UserService {
     List<UserResponse> findAll();
     UserResponse save(UserRequest user);
@@ -17,5 +17,5 @@ public interface UserService {
     boolean updatePassword(String email, ChangePassword changePassword);
     User findByEmail(String email);
     UserResponse login(String username, String password);
-   
+    Map<String, Object> graph_users();
 }

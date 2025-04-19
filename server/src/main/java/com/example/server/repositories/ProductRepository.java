@@ -7,17 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
 import com.example.server.entity.Product;
-import com.example.server.dto.request.ProductTypeStat;
-
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT new com.example.server.dto.request.ProductTypeStat(p.productType, SUM(p.sold)) " +
-    "FROM Product p GROUP BY p.productType")
-    List<ProductTypeStat> findProductTypeStats();
     @Query("SELECT p FROM Product p WHERE " +
     "(:name IS NULL OR UPPER(p.name) LIKE CONCAT('%', UPPER(:name), '%')) AND " +
     "(:productType IS NULL OR UPPER(p.productType) LIKE CONCAT('%', UPPER(:productType), '%')) AND " +

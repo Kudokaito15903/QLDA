@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 import com.example.server.service.ProductService;
 import com.example.server.dto.request.ProductRequest;
-import com.example.server.dto.request.ProductTypeStat;
 import com.example.server.dto.request.ProductUpdateRequest;
 import com.example.server.dto.response.ProductResponse;
 import com.example.server.entity.Product;
@@ -181,19 +180,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSold(newSold + product.getSold());
         productRepository.save(product);
     }
-    @Override
-    public List<ProductTypeStat> getTopCategoryProducts(){
-        List<ProductTypeStat> productTypeStats = productRepository.findProductTypeStats();
-        return productTypeStats.stream()
-            .map(this::toProductTypeStat)
-            .collect(Collectors.toList());
-    }
-    private ProductTypeStat toProductTypeStat(ProductTypeStat productTypeStat){
-        return ProductTypeStat.builder()
-            .productType(productTypeStat.getProductType())
-            .totalSold(productTypeStat.getTotalSold())
-            .build();
-    }
+
     private ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
