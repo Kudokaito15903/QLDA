@@ -1,0 +1,1 @@
+export const PRODUCT_BRANDS = ["Apple", "Samsung", "Xiaomi","HP","Huawei","Lenovo","Dell","Asus","Acer","MSI","Razer","Logitech","Corsair","Gigabyte","Zotac","NVIDIA","AMD","Intel","Samsung","Apple","Xiaomi","Huawei","Lenovo","Dell","Asus","Acer","MSI","Razer","Logitech","Corsair","Gigabyte","Zotac","NVIDIA","AMD","Intel"];

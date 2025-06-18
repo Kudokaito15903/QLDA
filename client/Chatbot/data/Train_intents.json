@@ -1,0 +1,197 @@
+{
+  "intents": [
+    {
+      "tag": "search_product",
+      "patterns": [
+        "Please show me the latest tablet models",
+        "I'm looking to buy noise-canceling headphones",
+        "Do you have tablets that support drawing?",
+        "I want to find a Apple phone",
+        "I need to buy a cheap phone",
+        "I need to buy a cheap headphones",
+        "I want to find a Xiaomi phone",
+        "I want to find a Lenovo phone",
+        "Are there any laptops under 15 million?",
+        "I want to find a Samsung phone",
+        "I need to buy a cheap tablet",
+        "Are there any laptops under 20 million?",
+        "Does the shop sell Bluetooth headphones?",
+        "Are there any laptops under 25 million?",
+        "Are there phones with long battery life?",
+        "Do you have gaming phones?",
+        "Suggest some laptops for online learning",
+        "Are there any laptops under 10 million?",
+        "I want to find a HP phone"
+      ],
+      "responses": [
+        "Here are some products matching your search:",
+        "I found these items for you:",
+        "Check out these products:"
+      ],
+      "context": [
+        "product-inquiry"
+      ]
+    },
+    {
+      "tag": "check_order_status",
+      "patterns": [
+        "Please tell me where my order is",
+        "I haven't received my order yet",
+        "Could you check my order status?",
+        "Has my order been delivered yet?",
+        "I want to check order #12345",
+        "Please update my recent order",
+        "How can I track my order?",
+        "Has the noon order been shipped?",
+        "My order is delayed",
+        "What's the status of yesterday's order?"
+      ],
+      "responses": [
+        "Let me check your order status...",
+        "Your current order status:",
+        "Here's the latest update on your order:"
+      ],
+      "context": [
+        "order-related"
+      ]
+    },
+    {
+      "tag": "place_order",
+      "patterns": [
+        "I want to place a COD order",
+        "I need to buy a Samsung tablet",
+        "How to place an order?",
+        "Please help me place the order",
+        "I'd like to order a Dell laptop",
+        "Please advise and place order for me",
+        "I want to order this phone",
+        "Add these headphones to my cart",
+        "Help me order the product in this photo",
+        "I want to buy this product immediately"
+      ],
+      "responses": [
+        "Order placed successfully!",
+        "Your order is being processed.",
+        "Order confirmation sent to your email."
+      ],
+      "context": [
+        "ordering-context"
+      ]
+    },
+    {
+      "tag": "cancel_order",
+      "patterns": [
+        "Cancel my noon order please",
+        "I no longer need this order",
+        "Please cancel my order",
+        "Please cancel yesterday's order",
+        "I want to cancel order #67890",
+        "I won't take that order anymore",
+        "I don't want to receive the item",
+        "I placed wrong order, please cancel",
+        "I don't need this product anymore",
+        "I made a wrong order, please cancel"
+      ],
+      "responses": [
+        "Order cancellation requested.",
+        "Your order has been cancelled.",
+        "Cancellation processed successfully."
+      ],
+      "context": [
+        "order-modification"
+      ]
+    },
+    {
+      "tag": "ask_return_policy",
+      "patterns": [
+        "Can I exchange online purchases?",
+        "Can I change the product color?",
+        "What's the return timeframe?",
+        "Can I return wrong headphones?",
+        "Can I return defective products?",
+        "I need to exchange a faulty tablet",
+        "How to return items?",
+        "What's your return policy?",
+        "Is there fee for returns?",
+        "Can I return products if unsatisfied?"
+      ],
+      "responses": [
+        "Our return policy: 30-day money back guarantee.",
+        "You can return items within 30 days of purchase.",
+        "Full return policy details: [link]"
+      ],
+      "context": [
+        "after-sales"
+      ]
+    },
+    {
+      "tag": "ask_promotion",
+      "patterns": [
+        "Are headphones discounted?",
+        "Current laptop promotions?",
+        "What promotions are available?",
+        "Is this product on sale?",
+        "Free shipping for orders over 500k?",
+        "What's the percentage discount?",
+        "What's this month's promotion?",
+        "Any free gifts incacccluded?",
+        "Any discounts for combo purchases?",
+        "Do you have discount codes?"
+      ],
+      "responses": [
+        "Current promotions: 10% off all electronics!",
+        "Special deals this week:",
+        "Check out our latest offers:"
+      ],
+      "context": [
+        "promotional"
+      ]
+    },
+    {
+      "tag": "google",
+      "patterns": [
+        "google",
+        "search",
+        "internet"
+      ],
+      "responses": [
+        "Redirecting to Google..."
+      ]
+    },
+    {
+      "tag":"Bye",
+      "patterns": [
+        "Good bye",
+        "Good luck",
+        "Thank you"
+      ],
+      "responses": [
+        "See you later",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi there",
+        "How are you",
+        "Is anyone there?",
+        "Hey",
+        "Hola",
+        "Hello",
+        "Good day",
+        "Namaste",
+        "yo"
+      ],
+      "responses": [
+        "Hello",
+        "Good to see you again",
+        "Hi there, how can I help?"
+      ],
+      "context": [
+        ""
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+#chat-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chat-body {
+  height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 15px;
+}
+
+.message-bubble {
+  border-radius: 20px;
+  max-width: 75%;
+  animation: fadeIn 0.3s ease;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #6c757d;
+  display: inline-block;
+  animation: pulse 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Make the interface more responsive */
+@media (max-width: 576px) {
+  .message-bubble {
+    max-width: 85%;
+  }
+}
